@@ -1,7 +1,7 @@
-﻿//      растваление кораблей
+﻿//      расставление кораблей
 //      хард режим для бота
 
-
+//                                       |  -
 //                               mass   [y][x]
 //                  система  0 - пустое поле     1 - часть корабля  * - подбитая часть корабля 
 //                  визуал       " "                     #                       *
@@ -13,7 +13,7 @@ using namespace std;
 enum next_side {
 	Left,Right,Up,Down
 };
-int convert_let_to_num(char letter) {
+int convert_let_to_num(char letter) {    //   счет вертикального значения
 	switch (letter) {
 	case 'A':
 		return 1;
@@ -38,7 +38,7 @@ int convert_let_to_num(char letter) {
 	}
 }
 
-int convert_num_to_num(char num) {
+int convert_num_to_num(char num) {    //  счет горизонтального значения
 	switch (num) {
 	case '1':
 		return 1;
@@ -63,7 +63,7 @@ int convert_num_to_num(char num) {
 	}
 }
 
-bool _1thship(char sea [10][10], int y, int x) {
+bool _1thship(char sea [10][10], int y, int x) {   // расстановка 1-палубного корабля
 	if (sea[y - 1][x] == '0' &&
 		sea[y + 1][x] == '0' &&
 		sea[y][x - 1] == '0' &&
@@ -74,7 +74,7 @@ bool _1thship(char sea [10][10], int y, int x) {
 	}
 	else cout << "you can't place ship here";
 }
-bool _2thship(char sea[10][10], int y, int x, next_side side) {
+bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расстановка 2-палубногоо корабля
 	int next_y, next_x;
 	switch (side) {
 	case Left:
@@ -152,7 +152,7 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {
 	}
 }
 int main() {
-	char sea1[10][10];
+	char sea1[10][10];    // игровое поле
 	
 	int x, y;
 	string pos, full_cord;         
@@ -164,7 +164,7 @@ int main() {
 	int _1th = 4;
 	char ship;
 	int i = 1;
-	while(i <= 10){
+	while(i <= 10){          //  будущая функция расстановки всех кораблей 
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
 
 		if (ship == '1' && _1th != 0) {
