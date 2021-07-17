@@ -151,20 +151,18 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 		else cout << "you can't place ship here";
 	}
 }
-int main() {
-	char sea1[10][10];    // игровое поле
-	
+void ship_placement(char sea1[10][10]) {
+	int i = 1;
+	char ship;
 	int x, y;
-	string pos, full_cord;         
+	string pos, full_cord;
 	char letx, lety;
-
 	int _4th = 1;
 	int _3th = 2;
 	int _2th = 3;
 	int _1th = 4;
-	char ship;
-	int i = 1;
-	while(i <= 10){          //  будущая функция расстановки всех кораблей 
+
+	while (i <= 10) {          //  будущая функция расстановки всех кораблей 
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
 
 		if (ship == '1' && _1th != 0) {
@@ -176,6 +174,7 @@ int main() {
 			y = convert_let_to_num(lety);
 
 			if (_1thship(sea1, y, x)) i++;
+			cout << sea1[y][x] << endl;
 		}
 		if (ship == '2' && _2th != 0) {
 			_2th--;
@@ -185,7 +184,7 @@ int main() {
 			x = convert_num_to_num(letx);
 			y = convert_let_to_num(lety);
 			cout << "side: "; cin >> pos;
-			if (pos == "left"){
+			if (pos == "left") {
 				if (_2thship(sea1, y, x, Left)) i++;
 			}
 			if (pos == "right") {
@@ -199,6 +198,12 @@ int main() {
 			}
 		}
 	}
+}
+int main() {
+	char sea1[10][10];    // игровое поле
+	
+	ship_placement(sea1);
+	
 	
 	
 }
