@@ -62,17 +62,28 @@ int convert_num_to_num(char num) {    //  счет горизонтальног�
 		return 10;
 	}
 }
-
-bool _1thship(char sea [10][10], int y, int x) {   // расстановка 1-палубного корабля
-	if (sea[y - 1][x] == '0' &&
-		sea[y + 1][x] == '0' &&
-		sea[y][x - 1] == '0' &&
-		sea[y][x + 1] == '0') 
-	{                 
-		sea[y][x] = '1';
-		return true;
+bool can_place(int model,int x, int y,char sea[10][10]) {
+	if (model == 1) {
+		if (sea[y - 1][x] == '0' &&
+			sea[y + 1][x] == '0' &&
+			sea[y][x - 1] == '0' &&
+			sea[y][x + 1] == '0')
+		{
+			return true;
+		}
+		else return false;
 	}
-	else cout << "you can't place ship here";
+	else if (model == 2){
+	
+	}
+}
+bool _1thship(char sea [10][10], int y, int x) {   // расстановка 1-палубного корабля
+	if (can_place(1, x, y, sea)) sea[y][x] = '1';
+	else { 
+		cout << "you can't place ship here";
+		return false;
+	}
+
 }
 bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расстановка 2-палубногоо корабля
 	int next_y, next_x;
@@ -151,6 +162,7 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 		else cout << "you can't place ship here";
 	}
 }
+
 void ship_placement(char sea1[10][10]) {
 	int i = 1;
 	char ship;
