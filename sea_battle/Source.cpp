@@ -62,21 +62,6 @@ int convert_num_to_num(char num) {    //  счет горизонтальног�
 		return 10;
 	}
 }
-bool can_place(int model, int y, int x, char sea[10][10]) {
-	if (model == 1) {
-		if (sea[y - 1][x] == '0' &&
-			sea[y + 1][x] == '0' &&
-			sea[y][x - 1] == '0' &&
-			sea[y][x + 1] == '0')
-		{
-			return true;
-		}
-		else return false;
-	}
-	else if (model == 2){
-	
-	}
-}
 void MapReset(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -84,8 +69,25 @@ void MapReset(char sea[10][10]) {
 		}
 	}
 }
+bool can_place(int y, int x, char sea[10][10]) {
+	if (sea[y - 1][x] == '0' &&
+		sea[y - 1][x - 1] == '0' &&
+		sea[y][x - 1] == '0' &&
+		sea[y + 1][x - 1] == '0' &&
+		sea[y + 1][x] == '0' &&
+		sea[y + 1][x + 1] == '0' &&
+		sea[y][x + 1] == '0' &&
+		sea[y - 1][x + 1] == '0' &&
+		sea[y][x] == '0')
+
+	{
+			return true;
+	}
+	else return false;
+}
+
 bool _1thship(char sea [10][10], int y, int x) {   // расстановка 1-палубного корабля
-	if (can_place(1, y, x, sea)) { sea[y][x] = '1'; cout << "1111111111111111111111111" << endl; }
+	if (can_place(y, x, sea)) sea[y][x] = '1';
 	else { 
 		cout << "you can't place ship here";
 		return false;
