@@ -11,9 +11,9 @@
 
 using namespace std;
 enum next_side {
-	Left,Right,Up,Down
+	Left, Right, Up, Down
 };
-int convert_let_to_num(char letter) {    //   счет вертикального значения
+int ConvertLetToNum(char letter) {    //   счет вертикального значения
 	switch (letter) {
 	case 'A':
 		return 1;
@@ -38,7 +38,7 @@ int convert_let_to_num(char letter) {    //   счет вертикальног�
 	}
 }
 
-int convert_num_to_num(char num) {    //  счет горизонтального значения
+int ConvertNumToNum(char num) {    //  счет горизонтального значения
 	switch (num) {
 	case '1':
 		return 1;
@@ -69,7 +69,7 @@ void MapReset(char sea[10][10]) {
 		}
 	}
 }
-bool can_place(int y, int x, char sea[10][10]) {
+bool CanPlace(int y, int x, char sea[10][10]) {
 	if (sea[y - 1][x] == '0' &&
 		sea[y - 1][x - 1] == '0' &&
 		sea[y][x - 1] == '0' &&
@@ -81,14 +81,14 @@ bool can_place(int y, int x, char sea[10][10]) {
 		sea[y][x] == '0')
 
 	{
-			return true;
+		return true;
 	}
 	else return false;
 }
 
-bool _1thship(char sea [10][10], int y, int x) {   // расстановка 1-палубного корабля
-	if (can_place(y, x, sea)) sea[y][x] = '1';
-	else { 
+bool _1thship(char sea[10][10], int y, int x) {   // расстановка 1-палубного корабля
+	if (CanPlace(y, x, sea)) sea[y][x] = '1';
+	else {
 		cout << "you can't place ship here";
 		return false;
 	}
@@ -97,8 +97,8 @@ bool _1thship(char sea [10][10], int y, int x) {   // расстановка 1-�
 bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расстановка 2-палубногоо корабля
 	switch (side) {
 	case Left:
-		if (can_place(y, x, sea)) {
-			if (can_place(y, x - 1, sea)) {
+		if (CanPlace(y, x, sea)) {
+			if (CanPlace(y, x - 1, sea)) {
 				sea[y][x] = '1';
 				sea[y][x - 1] = '1';
 			}
@@ -106,8 +106,8 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 		}
 		else cout << "you can't place ship here";
 	case Right:
-		if (can_place(y, x, sea)) {
-			if (can_place(y, x + 1, sea)) {
+		if (CanPlace(y, x, sea)) {
+			if (CanPlace(y, x + 1, sea)) {
 				sea[y][x] = '1';
 				sea[y][x + 1] = '1';
 			}
@@ -115,17 +115,17 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 		}
 		else cout << "you can't place ship here";
 	case Up:
-		if (can_place(y, x, sea)) {
-			if (can_place(y + 1, x, sea)) {
+		if (CanPlace(y, x, sea)) {
+			if (CanPlace(y + 1, x, sea)) {
 				sea[y][x] = '1';
-				sea[y + 1 ][x] = '1';
+				sea[y + 1][x] = '1';
 			}
 			else cout << "you can't place ship here";
 		}
 		else cout << "you can't place ship here";
 	case Down:
-		if (can_place(y, x, sea)) {
-			if (can_place(y - 1, x, sea)) {
+		if (CanPlace(y, x, sea)) {
+			if (CanPlace(y - 1, x, sea)) {
 				sea[y][x] = '1';
 				sea[y - 1][x] = '1';
 			}
@@ -135,7 +135,7 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 	}
 }
 
-void ship_placement(char sea1[10][10]) {
+void ShipPlacement(char sea1[10][10]) {
 	int i = 1;
 	char ship;
 	int x, y;
@@ -146,7 +146,7 @@ void ship_placement(char sea1[10][10]) {
 	int _2th = 3;
 	int _1th = 4;
 
-	while (i <= 10) {         
+	while (i <= 10) {
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
 
 		if (ship == '1' && _1th != 0) {
@@ -155,10 +155,10 @@ void ship_placement(char sea1[10][10]) {
 			cout << letx << " ";
 			lety = full_cord[1];
 			cout << lety << endl;
-			x = convert_num_to_num(letx);
-			y = convert_let_to_num(lety);
+			x = ConvertNumToNum(letx);
+			y = ConvertLetToNum(lety);
 
-			if (_1thship(sea1, y, x)) { 
+			if (_1thship(sea1, y, x)) {
 				i++;
 				_1th--;
 			};
@@ -170,8 +170,8 @@ void ship_placement(char sea1[10][10]) {
 			cout << "enter full cordinats: "; cin >> full_cord;
 			letx = full_cord[0];
 			lety = full_cord[1];
-			x = convert_num_to_num(letx);
-			y = convert_let_to_num(lety);
+			x = ConvertNumToNum(letx);
+			y = ConvertLetToNum(lety);
 			cout << "side: "; cin >> pos;
 			if (pos == "left") {
 				if (_2thship(sea1, y, x, Left)) i++;
@@ -192,10 +192,5 @@ void ship_placement(char sea1[10][10]) {
 int main() {
 	char sea1[10][10];    // игровое поле
 	MapReset(sea1);
-	ship_placement(sea1);
-
-	
-	
-	
-	
+	ShipPlacement(sea1);
 }
