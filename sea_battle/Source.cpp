@@ -62,7 +62,7 @@ int convert_num_to_num(char num) {    //  счет горизонтальног�
 		return 10;
 	}
 }
-bool can_place(int model,int x, int y,char sea[10][10]) {
+bool can_place(int model, int y, int x, char sea[10][10]) {
 	if (model == 1) {
 		if (sea[y - 1][x] == '0' &&
 			sea[y + 1][x] == '0' &&
@@ -77,8 +77,15 @@ bool can_place(int model,int x, int y,char sea[10][10]) {
 	
 	}
 }
+void MapReset(char sea[10][10]) {
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			sea[i][j] = '0';
+		}
+	}
+}
 bool _1thship(char sea [10][10], int y, int x) {   // расстановка 1-палубного корабля
-	if (can_place(1, x, y, sea)) sea[y][x] = '1';
+	if (can_place(1, y, x, sea)) { sea[y][x] = '1'; cout << "1111111111111111111111111" << endl; }
 	else { 
 		cout << "you can't place ship here";
 		return false;
@@ -174,19 +181,24 @@ void ship_placement(char sea1[10][10]) {
 	int _2th = 3;
 	int _1th = 4;
 
-	while (i <= 10) {          //  будущая функция расстановки всех кораблей 
+	while (i <= 10) {         
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
 
 		if (ship == '1' && _1th != 0) {
-			_1th--;
 			cout << "enter full cordinats: "; cin >> full_cord;
 			letx = full_cord[0];
+			cout << letx << " ";
 			lety = full_cord[1];
+			cout << lety << endl;
 			x = convert_num_to_num(letx);
 			y = convert_let_to_num(lety);
 
-			if (_1thship(sea1, y, x)) i++;
+			if (_1thship(sea1, y, x)) { 
+				i++;
+				_1th--;
+			};
 			cout << sea1[y][x] << endl;
+			cout << "------" << endl;
 		}
 		if (ship == '2' && _2th != 0) {
 			_2th--;
@@ -211,10 +223,13 @@ void ship_placement(char sea1[10][10]) {
 		}
 	}
 }
+
 int main() {
 	char sea1[10][10];    // игровое поле
-	
+	MapReset(sea1);
 	ship_placement(sea1);
+
+	
 	
 	
 	
