@@ -70,7 +70,7 @@ void MapReset(char sea[10][10]) {
 	}
 }
 bool CanPlace(int y, int x, char sea[10][10]) {
-	if (sea[y - 1][x] == '0' &&
+	return (sea[y - 1][x] == '0' &&
 		sea[y - 1][x - 1] == '0' &&
 		sea[y][x - 1] == '0' &&
 		sea[y + 1][x - 1] == '0' &&
@@ -78,12 +78,7 @@ bool CanPlace(int y, int x, char sea[10][10]) {
 		sea[y + 1][x + 1] == '0' &&
 		sea[y][x + 1] == '0' &&
 		sea[y - 1][x + 1] == '0' &&
-		sea[y][x] == '0')
-
-	{
-		return true;
-	}
-	else return false;
+		sea[y][x] == '0');
 }
 
 bool _1thship(char sea[10][10], int y, int x) {   // расстановка 1-палубного корабля
@@ -101,37 +96,49 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 			if (CanPlace(y, x - 1, sea)) {
 				sea[y][x] = '1';
 				sea[y][x - 1] = '1';
+				return true;
 			}
 			else cout << "you can't place ship here";
+			return false;
 		}
 		else cout << "you can't place ship here";
+		return false;
 	case Right:
 		if (CanPlace(y, x, sea)) {
 			if (CanPlace(y, x + 1, sea)) {
 				sea[y][x] = '1';
 				sea[y][x + 1] = '1';
+				return true;
 			}
 			else cout << "you can't place ship here";
+			return false;
 		}
 		else cout << "you can't place ship here";
+		return false;
 	case Up:
 		if (CanPlace(y, x, sea)) {
 			if (CanPlace(y + 1, x, sea)) {
 				sea[y][x] = '1';
 				sea[y + 1][x] = '1';
+				return true;
 			}
 			else cout << "you can't place ship here";
+			return false;
 		}
 		else cout << "you can't place ship here";
+		return false;
 	case Down:
 		if (CanPlace(y, x, sea)) {
 			if (CanPlace(y - 1, x, sea)) {
 				sea[y][x] = '1';
 				sea[y - 1][x] = '1';
+				return true;
 			}
 			else cout << "you can't place ship here";
+			return false;
 		}
 		else cout << "you can't place ship here";
+		return false;
 	}
 }
 
