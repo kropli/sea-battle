@@ -95,76 +95,39 @@ bool _1thship(char sea [10][10], int y, int x) {   // расстановка 1-�
 
 }
 bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расстановка 2-палубногоо корабля
-	int next_y, next_x;
 	switch (side) {
 	case Left:
-		next_y = y; next_x = x - 1;
-		if (sea[y - 1][x] == '0' &&
-			sea[y + 1][x] == '0' &&
-			sea[y][x - 1] == '0' &&
-			sea[y][x + 1] == '0')
-		{
-			if (sea[next_y - 1][next_x] == '0' &&
-				sea[next_y + 1][next_x] == '0' &&
-				sea[next_y][next_x - 1] == '0')
-			{
+		if (can_place(y, x, sea)) {
+			if (can_place(y, x - 1, sea)) {
 				sea[y][x] = '1';
-				sea[next_y][next_x] = '1';
-				return true;
+				sea[y][x - 1] = '1';
 			}
 			else cout << "you can't place ship here";
 		}
 		else cout << "you can't place ship here";
 	case Right:
-		next_y = y; next_x = x + 1;
-		if (sea[y - 1][x] == '0' &&
-			sea[y + 1][x] == '0' &&
-			sea[y][x - 1] == '0' &&
-			sea[y][x + 1] == '0')
-		{
-			if (sea[next_y - 1][next_x] == '0' &&
-				sea[next_y + 1][next_x] == '0' &&
-				sea[next_y][next_x + 1] == '0')
-			{
+		if (can_place(y, x, sea)) {
+			if (can_place(y, x + 1, sea)) {
 				sea[y][x] = '1';
-				sea[next_y][next_x] = '1';
-				return true;
+				sea[y][x + 1] = '1';
 			}
 			else cout << "you can't place ship here";
 		}
 		else cout << "you can't place ship here";
 	case Up:
-		next_y = y + 1; next_x = x;
-		if (sea[y - 1][x] == '0' &&
-			sea[y + 1][x] == '0' &&
-			sea[y][x - 1] == '0' &&
-			sea[y][x + 1] == '0')
-		{
-			if (sea[next_y + 1][next_x] == '0' &&
-				sea[next_y][next_x + 1] == '0' &&
-				sea[next_y][next_x - 1] == '0')
-			{
+		if (can_place(y, x, sea)) {
+			if (can_place(y + 1, x, sea)) {
 				sea[y][x] = '1';
-				sea[next_y][next_x] = '1';
-				return true;
+				sea[y + 1 ][x] = '1';
 			}
 			else cout << "you can't place ship here";
 		}
 		else cout << "you can't place ship here";
 	case Down:
-		next_y = y - 1; next_x = x;
-		if (sea[y - 1][x] == '0' &&
-			sea[y + 1][x] == '0' &&
-			sea[y][x - 1] == '0' &&
-			sea[y][x + 1] == '0')
-		{
-			if (sea[next_y - 1][next_x] == '0' &&
-				sea[next_y][next_x + 1] == '0' &&
-				sea[next_y][next_x - 1] == '0')
-			{
+		if (can_place(y, x, sea)) {
+			if (can_place(y - 1, x, sea)) {
 				sea[y][x] = '1';
-				sea[next_y][next_x] = '1';
-				return true;
+				sea[y - 1][x] = '1';
 			}
 			else cout << "you can't place ship here";
 		}
