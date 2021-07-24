@@ -10,9 +10,7 @@
 #include <string>
 
 using namespace std;
-enum next_side {
-	Left, Right, Up, Down
-};
+
 int ConvertLetToNum(char letter) {    //   счет вертикального значения
 	switch (letter) {
 	case 'A':
@@ -89,9 +87,8 @@ bool _1thship(char sea[10][10], int y, int x) {   // расстановка 1-п
 	}
 
 }
-bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расстановка 2-палубногоо корабля
-	switch (side) {
-	case Left:
+bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстановка 2-палубногоо корабля
+	if (pos == "left") {
 		if (CanPlace(y, x, sea)) {
 			if (CanPlace(y, x - 1, sea)) {
 				sea[y][x] = '1';
@@ -103,7 +100,8 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 		}
 		else cout << "you can't place ship here";
 		return false;
-	case Right:
+	}
+	else if (pos == "right") {
 		if (CanPlace(y, x, sea)) {
 			if (CanPlace(y, x + 1, sea)) {
 				sea[y][x] = '1';
@@ -115,7 +113,8 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 		}
 		else cout << "you can't place ship here";
 		return false;
-	case Up:
+	}
+	else if (pos == "up") {
 		if (CanPlace(y, x, sea)) {
 			if (CanPlace(y + 1, x, sea)) {
 				sea[y][x] = '1';
@@ -127,7 +126,8 @@ bool _2thship(char sea[10][10], int y, int x, next_side side) {  // расста
 		}
 		else cout << "you can't place ship here";
 		return false;
-	case Down:
+	}
+	else if (pos == "down") {
 		if (CanPlace(y, x, sea)) {
 			if (CanPlace(y - 1, x, sea)) {
 				sea[y][x] = '1';
@@ -172,26 +172,18 @@ void ShipPlacement(char sea1[10][10]) {
 			cout << sea1[y][x] << endl;
 			cout << "------" << endl;
 		}
-		if (ship == '2' && _2th != 0) {
-			_2th--;
+		if (ship == '2' && _2th != 0) {			
 			cout << "enter full cordinats: "; cin >> full_cord;
 			letx = full_cord[0];
 			lety = full_cord[1];
 			x = ConvertNumToNum(letx);
 			y = ConvertLetToNum(lety);
 			cout << "side: "; cin >> pos;
-			if (pos == "left") {
-				if (_2thship(sea1, y, x, Left)) i++;
+			if (_2thship(sea1, y, x, pos)) {
+				i++;
+				_2th--;
 			}
-			if (pos == "right") {
-				if (_2thship(sea1, y, x, Right)) i++;
-			}
-			if (pos == "up") {
-				if (_2thship(sea1, y, x, Up)) i++;
-			}
-			if (pos == "down") {
-				if (_2thship(sea1, y, x, Down)) i++;
-			}
+			
 		}
 	}
 }
