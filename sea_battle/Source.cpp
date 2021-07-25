@@ -3,7 +3,7 @@
 
 //                                       |  -
 //                               mass   [y][x]
-//                  система  0 - пустое поле     1 - часть корабля  * - подбитая часть корабля 
+//                  система  0 - пустое поле     1 - часть корабля  2 - подбитая часть корабля 
 //                  визуал       " "                     #                       *
 #include <iostream> 
 #include <cstring>
@@ -37,28 +37,7 @@ int ConvertLetToNum(char letter) {    //   счет вертикального �
 }
 
 int ConvertNumToNum(char num) {    //  счет горизонтального значения
-	switch (num) {
-	case '1':
-		return 0;
-	case '2':
-		return 1;
-	case '3':
-		return 2;
-	case '4':
-		return 3;
-	case '5':
-		return 4;
-	case '6':
-		return 5;
-	case '7':
-		return 6;
-	case '8':
-		return 7;
-	case '9':
-		return 8;
-	case '10':
-		return 9;
-	}
+	return num - 48;
 }
 void MapReset(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
@@ -280,9 +259,19 @@ void ShipPlacement(char sea[10][10]) {
 		}
 	}
 }
+bool ShipsIsAlive(char sea[10][10]) {
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 10; j++) {
+			if (sea[i][j] == '1') return true;
+		}
+	}
+}
 
 int main() {
 	char sea[10][10];    // игровое поле
 	MapReset(sea);
 	ShipPlacement(sea);
+	if (ShipsIsAlive(sea)) {
+		
+	}
 }
