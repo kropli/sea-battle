@@ -227,7 +227,7 @@ void EnterInfo (int *y, int *x,string *pos) {
 	cout << "position: "; cin >> *pos;
 }
 
-void ShipPlacement(char sea1[10][10]) {
+void ShipPlacement(char sea[10][10]) {
 	int i = 1;
 	char ship;
 	int x, y;
@@ -239,7 +239,7 @@ void ShipPlacement(char sea1[10][10]) {
 	int _1th = 4;
 	
 	while (i <= 10) {
-		MapView(sea1);
+		MapView(sea);
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
 
 		if (ship == '1' && _1th != 0) {
@@ -249,14 +249,14 @@ void ShipPlacement(char sea1[10][10]) {
 			x = ConvertNumToNum(letx);
 			y = ConvertLetToNum(lety);
 
-			if (_1thship(sea1, y, x)) {
+			if (_1thship(sea, y, x)) {
 				i++;
 				_1th--;
 			};
 		}
 		if (ship == '2' && _2th != 0) {			
 			EnterInfo(&y, &x, &pos);
-			if (_2thship(sea1, y, x, pos)) {
+			if (_2thship(sea, y, x, pos)) {
 				i++;
 				_2th--;
 			}
@@ -264,7 +264,7 @@ void ShipPlacement(char sea1[10][10]) {
 		}
 		if (ship == '3' && _2th != 0) {
 			EnterInfo(&y, &x, &pos);
-			if (_3thship(sea1, y, x, pos)) {
+			if (_3thship(sea, y, x, pos)) {
 				i++;
 				_3th--;
 			}
@@ -272,7 +272,7 @@ void ShipPlacement(char sea1[10][10]) {
 		}
 		if (ship == '4' && _2th != 0) {
 			EnterInfo(&y, &x, &pos);
-			if (_4thship(sea1, y, x, pos)) {
+			if (_4thship(sea, y, x, pos)) {
 				i++;
 				_4th--;
 			}
@@ -282,7 +282,7 @@ void ShipPlacement(char sea1[10][10]) {
 }
 
 int main() {
-	char sea1[10][10];    // игровое поле
-	MapReset(sea1);
-	ShipPlacement(sea1);
+	char sea[10][10];    // игровое поле
+	MapReset(sea);
+	ShipPlacement(sea);
 }
