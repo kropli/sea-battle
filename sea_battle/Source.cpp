@@ -112,7 +112,7 @@ bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстано
 			return false;
 		}
 	}
-	else if (pos == "vetical") {
+	else if (pos == "vertical") {
 		for (int i = 0; i < 2; i++) {
 			if (!CanPlace(y + i, x, sea)) {
 				AllGood = false;
@@ -154,7 +154,7 @@ bool _3thship(char sea[10][10], int y, int x, string pos) {  // расстано
 			return false;
 		}
 	}
-	else if (pos == "vetical") {
+	else if (pos == "vertical") {
 		for (int i = 0; i < 3; i++) {
 			if (!CanPlace(y + i, x, sea)) {
 				AllGood = false;
@@ -196,7 +196,7 @@ bool _4thship(char sea[10][10], int y, int x, string pos) {  // расстано
 			return false;
 		}
 	}
-	else if (pos == "vetical") {
+	else if (pos == "vertical") {
 		for (int i = 0; i < 4; i++) {
 			if (!CanPlace(y + i, x, sea)) {
 				AllGood = false;
