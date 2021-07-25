@@ -167,6 +167,48 @@ bool _3thship(char sea[10][10], int y, int x, string pos) {  // расстано
 	}
 }
 
+bool _3thship(char sea[10][10], int y, int x, string pos) {  // расстановка 4-палубногоо корабля
+	bool AllGood = true;
+	if (pos == "horizontal") {
+		for (int i = 0; i < 4; i++) {
+			if (!CanPlace(y, x + i, sea)) {
+				AllGood = false;
+				break;
+			}
+		}
+
+		if (AllGood) {
+			for (int i = 0; i < 4; i++) {
+				sea[y][x + i] = '1';
+				return true;
+			}
+		}
+		else {
+			cout << "you can't place ship here";
+			return false;
+		}
+	}
+	else if (pos == "vetical") {
+		for (int i = 0; i < 4; i++) {
+			if (!CanPlace(y + i, x, sea)) {
+				AllGood = false;
+				break;
+			}
+		}
+
+		if (AllGood) {
+			for (int i = 0; i < 4; i++) {
+				sea[y + i][x] = '1';
+				return true;
+			}
+		}
+		else {
+			cout << "you can't place ship here";
+			return false;
+		}
+	}
+}
+
 void ShipPlacement(char sea1[10][10]) {
 	int i = 1;
 	char ship;
@@ -184,9 +226,7 @@ void ShipPlacement(char sea1[10][10]) {
 		if (ship == '1' && _1th != 0) {
 			cout << "enter full cordinats: "; cin >> full_cord;
 			letx = full_cord[0];
-			cout << letx << " ";
 			lety = full_cord[1];
-			cout << lety << endl;
 			x = ConvertNumToNum(letx);
 			y = ConvertLetToNum(lety);
 
