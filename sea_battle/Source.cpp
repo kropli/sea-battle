@@ -86,7 +86,7 @@ bool _1thship(char sea[10][10], int y, int x) {   // расстановка 1-п
 bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстановка 2-палубногоо корабля
 	bool AllGood = true;
 	if (pos == "horizontal") {
-		for (int i = 0; i <= 1; i++) {
+		for (int i = 0; i < 2; i++) {
 			if (!CanPlace(y, x + i, sea)) {
 				AllGood = false;
 				break;
@@ -94,7 +94,7 @@ bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстано
 		}
 
 		if (AllGood) {
-			for (int i = 0; i <= 1; i++) {
+			for (int i = 0; i < 2; i++) {
 				sea[y][x + i] = '1';
 				return true;
 			}
@@ -105,7 +105,7 @@ bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстано
 		}
 	}
 	else if (pos == "vetical") {
-		for (int i = 0; i <= 1; i++) {
+		for (int i = 0; i < 2; i++) {
 			if (!CanPlace(y + i, x, sea)) {
 				AllGood = false;
 				break;
@@ -113,7 +113,49 @@ bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстано
 		}
 
 		if (AllGood) {
-			for (int i = 0; i <= 1; i++) {
+			for (int i = 0; i < 2; i++) {
+				sea[y + i][x] = '1';
+				return true;
+			}
+		}
+		else {
+			cout << "you can't place ship here";
+			return false;
+		}
+	}
+}
+
+bool _3thship(char sea[10][10], int y, int x, string pos) {  // расстановка 3-палубногоо корабля
+	bool AllGood = true;
+	if (pos == "horizontal") {
+		for (int i = 0; i < 3; i++) {
+			if (!CanPlace(y, x + i, sea)) {
+				AllGood = false;
+				break;
+			}
+		}
+
+		if (AllGood) {
+			for (int i = 0; i < 3; i++) {
+				sea[y][x + i] = '1';
+				return true;
+			}
+		}
+		else {
+			cout << "you can't place ship here";
+			return false;
+		}
+	}
+	else if (pos == "vetical") {
+		for (int i = 0; i < 3; i++) {
+			if (!CanPlace(y + i, x, sea)) {
+				AllGood = false;
+				break;
+			}
+		}
+
+		if (AllGood) {
+			for (int i = 0; i < 3; i++) {
 				sea[y + i][x] = '1';
 				return true;
 			}
