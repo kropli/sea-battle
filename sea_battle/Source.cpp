@@ -14,50 +14,50 @@ using namespace std;
 int ConvertLetToNum(char letter) {    //   счет вертикального значения
 	switch (letter) {
 	case 'A':
-		return 1;
+		return 0;
 	case 'B':
-		return 2;
+		return 1;
 	case 'C':
-		return 3;
+		return 2;
 	case 'D':
-		return 4;
+		return 3;
 	case 'E':
-		return 5;
+		return 4;
 	case 'F':
-		return 6;
+		return 5;
 	case 'G':
-		return 7;
+		return 6;
 	case 'H':
-		return 8;
+		return 7;
 	case 'I':
-		return 9;
+		return 8;
 	case 'J':
-		return 10;
+		return 9;
 	}
 }
 
 int ConvertNumToNum(char num) {    //  счет горизонтального значения
 	switch (num) {
 	case '1':
-		return 1;
+		return 0;
 	case '2':
-		return 2;
+		return 1;
 	case '3':
-		return 3;
+		return 2;
 	case '4':
-		return 4;
+		return 3;
 	case '5':
-		return 5;
+		return 4;
 	case '6':
-		return 6;
+		return 5;
 	case '7':
-		return 7;
+		return 6;
 	case '8':
-		return 8;
+		return 7;
 	case '9':
-		return 9;
+		return 8;
 	case '10':
-		return 10;
+		return 9;
 	}
 }
 void MapReset(char sea[10][10]) {
@@ -104,8 +104,8 @@ bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстано
 		if (AllGood) {
 			for (int i = 0; i < 2; i++) {
 				sea[y][x + i] = '1';
-				return true;
 			}
+			return true;
 		}
 		else {
 			cout << "you can't place ship here" << endl;
@@ -122,9 +122,9 @@ bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстано
 
 		if (AllGood) {
 			for (int i = 0; i < 2; i++) {
-				sea[y + i][x] = '1';
-				return true;
+				sea[y + i][x] = '1';			
 			}
+			return true;
 		}
 		else {
 			cout << "you can't place ship here" << endl;
@@ -146,8 +146,8 @@ bool _3thship(char sea[10][10], int y, int x, string pos) {  // расстано
 		if (AllGood) {
 			for (int i = 0; i < 3; i++) {
 				sea[y][x + i] = '1';
-				return true;
 			}
+			return true;
 		}
 		else {
 			cout << "you can't place ship here" << endl;
@@ -164,9 +164,9 @@ bool _3thship(char sea[10][10], int y, int x, string pos) {  // расстано
 
 		if (AllGood) {
 			for (int i = 0; i < 3; i++) {
-				sea[y + i][x] = '1';
-				return true;
+				sea[y + i][x] = '1';			
 			}
+			return true;
 		}
 		else {
 			cout << "you can't place ship here" << endl;
@@ -187,9 +187,9 @@ bool _4thship(char sea[10][10], int y, int x, string pos) {  // расстано
 
 		if (AllGood) {
 			for (int i = 0; i < 4; i++) {
-				sea[y][x + i] = '1';
-				return true;
+				sea[y][x + i] = '1';			
 			}
+			return true;
 		}
 		else {
 			cout << "you can't place ship here" << endl;
@@ -206,9 +206,9 @@ bool _4thship(char sea[10][10], int y, int x, string pos) {  // расстано
 
 		if (AllGood) {
 			for (int i = 0; i < 4; i++) {
-				sea[y + i][x] = '1';
-				return true;
+				sea[y + i][x] = '1';				
 			}
+			return true;
 		}
 		else {
 			cout << "you can't place ship here" << endl;
@@ -263,12 +263,7 @@ void ShipPlacement(char sea1[10][10]) {
 			
 		}
 		if (ship == '3' && _2th != 0) {
-			cout << "enter left corner cordinats: "; cin >> full_cord;
-			letx = full_cord[0];
-			lety = full_cord[1];
-			x = ConvertNumToNum(letx);
-			y = ConvertLetToNum(lety);
-			cout << "position: "; cin >> pos;
+			EnterInfo(&y, &x, &pos);
 			if (_3thship(sea1, y, x, pos)) {
 				i++;
 				_3th--;
@@ -276,12 +271,7 @@ void ShipPlacement(char sea1[10][10]) {
 
 		}
 		if (ship == '4' && _2th != 0) {
-			cout << "enter left corner cordinats: "; cin >> full_cord;
-			letx = full_cord[0];
-			lety = full_cord[1];
-			x = ConvertNumToNum(letx);
-			y = ConvertLetToNum(lety);
-			cout << "position: "; cin >> pos;
+			EnterInfo(&y, &x, &pos);
 			if (_4thship(sea1, y, x, pos)) {
 				i++;
 				_4th--;
