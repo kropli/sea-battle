@@ -68,15 +68,11 @@ void MapReset(char sea[10][10]) {
 	}
 }
 bool CanPlace(int y, int x, char sea[10][10]) {
-	return (sea[y - 1][x] == '0' &&
-		sea[y - 1][x - 1] == '0' &&
-		sea[y][x - 1] == '0' &&
-		sea[y + 1][x - 1] == '0' &&
-		sea[y + 1][x] == '0' &&
-		sea[y + 1][x + 1] == '0' &&
-		sea[y][x + 1] == '0' &&
-		sea[y - 1][x + 1] == '0' &&
-		sea[y][x] == '0');
+	for (int yi = -1; yi <= 1; yi++)
+		for (int xi = -1; xi <= 1; xi++)
+			if (sea[y + yi][x + xi] != '0')
+				return false;
+	return true;
 }
 
 bool _1thship(char sea[10][10], int y, int x) {   // расстановка 1-палубного корабля
@@ -88,57 +84,44 @@ bool _1thship(char sea[10][10], int y, int x) {   // расстановка 1-п
 
 }
 bool _2thship(char sea[10][10], int y, int x, string pos) {  // расстановка 2-палубногоо корабля
-	if (pos == "left") {
-		if (CanPlace(y, x, sea)) {
-			if (CanPlace(y, x - 1, sea)) {
-				sea[y][x] = '1';
-				sea[y][x - 1] = '1';
+	bool AllGood = true;
+	if (pos == "horizontal") {
+		for (int i = 0; i <= 1; i++) {
+			if (!CanPlace(y, x + i, sea)) {
+				AllGood = false;
+				break;
+			}
+		}
+
+		if (AllGood) {
+			for (int i = 0; i <= 1; i++) {
+				sea[y][x + i] = '1';
 				return true;
 			}
-			else cout << "you can't place ship here";
+		}
+		else {
+			cout << "you can't place ship here";
 			return false;
 		}
-		else cout << "you can't place ship here";
-		return false;
 	}
-	else if (pos == "right") {
-		if (CanPlace(y, x, sea)) {
-			if (CanPlace(y, x + 1, sea)) {
-				sea[y][x] = '1';
-				sea[y][x + 1] = '1';
+	else if (pos == "vetical") {
+		for (int i = 0; i <= 1; i++) {
+			if (!CanPlace(y + i, x, sea)) {
+				AllGood = false;
+				break;
+			}
+		}
+
+		if (AllGood) {
+			for (int i = 0; i <= 1; i++) {
+				sea[y + i][x] = '1';
 				return true;
 			}
-			else cout << "you can't place ship here";
+		}
+		else {
+			cout << "you can't place ship here";
 			return false;
 		}
-		else cout << "you can't place ship here";
-		return false;
-	}
-	else if (pos == "up") {
-		if (CanPlace(y, x, sea)) {
-			if (CanPlace(y + 1, x, sea)) {
-				sea[y][x] = '1';
-				sea[y + 1][x] = '1';
-				return true;
-			}
-			else cout << "you can't place ship here";
-			return false;
-		}
-		else cout << "you can't place ship here";
-		return false;
-	}
-	else if (pos == "down") {
-		if (CanPlace(y, x, sea)) {
-			if (CanPlace(y - 1, x, sea)) {
-				sea[y][x] = '1';
-				sea[y - 1][x] = '1';
-				return true;
-			}
-			else cout << "you can't place ship here";
-			return false;
-		}
-		else cout << "you can't place ship here";
-		return false;
 	}
 }
 
