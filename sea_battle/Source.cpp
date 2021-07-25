@@ -216,6 +216,16 @@ bool _4thship(char sea[10][10], int y, int x, string pos) {  // расстано
 		}
 	}
 }
+void EnterInfo (int *y, int *x,string *pos) {
+	string full_cord;
+	char letx, lety;
+	cout << "enter left corner cordinats: "; cin >> full_cord;
+	letx = full_cord[0];
+	lety = full_cord[1];
+	*x = ConvertNumToNum(letx);
+	*y = ConvertLetToNum(lety);
+	cout << "position: "; cin >> *pos;
+}
 
 void ShipPlacement(char sea1[10][10]) {
 	int i = 1;
@@ -245,12 +255,7 @@ void ShipPlacement(char sea1[10][10]) {
 			};
 		}
 		if (ship == '2' && _2th != 0) {			
-			cout << "enter left corner cordinats: "; cin >> full_cord;
-			letx = full_cord[0];
-			lety = full_cord[1];
-			x = ConvertNumToNum(letx);
-			y = ConvertLetToNum(lety);
-			cout << "position: "; cin >> pos;
+			EnterInfo(&y, &x, &pos);
 			if (_2thship(sea1, y, x, pos)) {
 				i++;
 				_2th--;
