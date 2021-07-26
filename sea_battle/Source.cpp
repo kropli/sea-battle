@@ -65,7 +65,7 @@ bool CanPlace(int y, int x, char sea[10][10]) {
 
 bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 	bool AllGood = true;
-	if (ShipType = 1) {
+	if (ShipType == 1) {
 		if (CanPlace(y, x, sea)) sea[y][x] = '1';
 		else {
 			cout << "you can't place ship here" << endl;
