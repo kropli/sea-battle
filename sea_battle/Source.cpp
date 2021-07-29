@@ -55,7 +55,7 @@ void MapView(char sea[10][10]) {
 		cout << endl;
 	}
 }
-bool CanPlace(int y, int x, char sea[10][10]) {
+bool CanPlaceShip(int y, int x, char sea[10][10]) {
 	for (int yi = -1; yi <= 1; yi++)
 		for (int xi = -1; xi <= 1; xi++)
 			if (sea[y + yi][x + xi] != '0')
@@ -66,7 +66,7 @@ bool CanPlace(int y, int x, char sea[10][10]) {
 bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 	bool AllGood = true;
 	if (ShipType == 1) {
-		if (CanPlace(y, x, sea)) sea[y][x] = '1';
+		if (CanPlaceShip(y, x, sea)) sea[y][x] = '1';
 		else {
 			cout << "you can't place ship here" << endl;
 			return false;
@@ -75,7 +75,7 @@ bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 	else if (ShipType == 2) {
 		if (pos == "horizontal") {
 			for (int i = 0; i < 2; i++) {
-				if (!CanPlace(y, x + i, sea)) {
+				if (!CanPlaceShip(y, x + i, sea)) {
 					AllGood = false;
 					break;
 				}
@@ -94,7 +94,7 @@ bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 		}
 		else if (pos == "vertical") {
 			for (int i = 0; i < 2; i++) {
-				if (!CanPlace(y + i, x, sea)) {
+				if (!CanPlaceShip(y + i, x, sea)) {
 					AllGood = false;
 					break;
 				}
@@ -115,7 +115,7 @@ bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 	else if (ShipType == 3) {	
 		if (pos == "horizontal") {
 			for (int i = 0; i < 3; i++) {
-				if (!CanPlace(y, x + i, sea)) {
+				if (!CanPlaceShip(y, x + i, sea)) {
 					AllGood = false;
 					break;
 				}
@@ -134,7 +134,7 @@ bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 		}
 		else if (pos == "vertical") {
 			for (int i = 0; i < 3; i++) {
-				if (!CanPlace(y + i, x, sea)) {
+				if (!CanPlaceShip(y + i, x, sea)) {
 					AllGood = false;
 					break;
 				}
@@ -155,7 +155,7 @@ bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 	else if (ShipType == 4){
 		if (pos == "horizontal") {
 			for (int i = 0; i < 4; i++) {
-				if (!CanPlace(y, x + i, sea)) {
+				if (!CanPlaceShip(y, x + i, sea)) {
 					AllGood = false;
 					break;
 				}
@@ -174,7 +174,7 @@ bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 		}
 		else if (pos == "vertical") {
 			for (int i = 0; i < 4; i++) {
-				if (!CanPlace(y + i, x, sea)) {
+				if (!CanPlaceShip(y + i, x, sea)) {
 					AllGood = false;
 					break;
 				}
@@ -261,12 +261,13 @@ void ShipPlacement(char sea[10][10]) {
 		}
 	}
 }
-bool ShipsIsAlive(char sea[10][10]) {
+bool IsAnyShipAlive(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
 			if (sea[i][j] == '1') return true;
 		}
 	}
+	return false;
 }
 void HardBotTurn(char sea[10][10]) {
 	int ShotChanse = rand() % 4;
@@ -278,7 +279,7 @@ int main() {
 	char sea[10][10];    // игровое поле
 	MapReset(sea);
 	ShipPlacement(sea);
-	while (ShipsIsAlive(sea)) {
+	while (IsAnyShipAlive(sea)) {
 		HardBotTurn(sea);
 	}
 }
