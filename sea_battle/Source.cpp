@@ -173,31 +173,31 @@ bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
 			}
 		}
 		else if (pos == "vertical") {
-			for (int i = 0; i < 4; i++) {
-				if (!CanPlaceShip(y + i, x, sea)) {
-					AllGood = false;
-					break;
-				}
-			}
+for (int i = 0; i < 4; i++) {
+	if (!CanPlaceShip(y + i, x, sea)) {
+		AllGood = false;
+		break;
+	}
+}
 
-			if (AllGood) {
-				for (int i = 0; i < 4; i++) {
-					sea[y + i][x] = '1';
-				}
-				return true;
-			}
-			else {
-				cout << "you can't place ship here" << endl;
-				return false;
-			}
+if (AllGood) {
+	for (int i = 0; i < 4; i++) {
+		sea[y + i][x] = '1';
+	}
+	return true;
+}
+else {
+	cout << "you can't place ship here" << endl;
+	return false;
+}
 		}
 	}
 	else {
-		cout << "you can't place ship here" << endl;
-		return false;
+	cout << "you can't place ship here" << endl;
+	return false;
 	}
 }
-void EnterInfo (int *y, int *x,string *pos) {
+void EnterInfo(int* y, int* x, string* pos) {
 	string full_cord;
 	char letx, lety;
 	cout << "enter left corner cordinats: "; cin >> full_cord;
@@ -218,7 +218,7 @@ void ShipPlacement(char sea[10][10]) {
 	int _3th = 2;
 	int _2th = 3;
 	int _1th = 4;
-	
+
 	while (i <= 10) {
 		MapView(sea);
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
@@ -235,13 +235,13 @@ void ShipPlacement(char sea[10][10]) {
 				_1th--;
 			};
 		}
-		if (ship == '2' && _2th != 0) {			
+		if (ship == '2' && _2th != 0) {
 			EnterInfo(&y, &x, &pos);
 			if (PlaceShip(sea, y, x, 2, pos)) {
 				i++;
 				_2th--;
 			}
-			
+
 		}
 		if (ship == '3' && _2th != 0) {
 			EnterInfo(&y, &x, &pos);
@@ -269,8 +269,27 @@ bool IsAnyShipAlive(char sea[10][10]) {
 	}
 	return false;
 }
+void GetShipPosition(char sea[10][10], int ShipsPosition[10][3]) {
+	for (int y = 0; y < 10; y++) {
+		for (int x = 0; x < 10; x++) {
+			if (sea[y][x] = '1') {
+				for (int k = 0; k < 10; k++){
+					if (ShipsPosition[k][1] != sea[y][x] && ShipsPosition[k][2] != sea[y][x]) {
+						 
+					}
+				}
+				
+			}
+		}
+	}
+}
 void HardBotTurn(char sea[10][10]) {
-	int ShotChanse = rand() % 4;
+	int ShipsPosition[10][3];
+
+	int ShotChanse = rand() % 10;
+	if (ShotChanse == 4 || ShotChanse == 7) {
+
+	}
 
 }
 
