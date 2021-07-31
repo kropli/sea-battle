@@ -11,7 +11,12 @@
 #include <string>
 
 using namespace std;
-
+struct Ship {
+	int y;
+	int x;
+	int length;
+	string position;
+};
 int ConvertLetToNum(char letter) {    //   счет вертикального значения
 	switch (letter) {
 	case 'A':
@@ -36,10 +41,10 @@ int ConvertLetToNum(char letter) {    //   счет вертикального �
 		return 9;
 	}
 }
-
 int ConvertNumToNum(char num) {    //  счет горизонтального значения
 	return num - 48;
 }
+
 void MapReset(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -55,205 +60,94 @@ void MapView(char sea[10][10]) {
 		cout << endl;
 	}
 }
+
 bool CanPlaceShip(int y, int x, char sea[10][10]) {
 	for (int yi = -1; yi <= 1; yi++)
 		for (int xi = -1; xi <= 1; xi++)
-			if (sea[y + yi][x + xi] != '0')
+			if (sea[y + yi][x + xi] == '1')
 				return false;
 	return true;
 }
-
-bool PlaceShip(char sea[10][10], int y, int x, int ShipType, string pos = "") {
+bool ShipPlacementCheck(char sea[10][10],Ship ship) { 
+	for (int i = 0; i < ship.length; i++) {
+		if (ship.position == "horizontal") {
+			if (!CanPlaceShip(ship.y, ship.x + i, sea)) cout << "you can't place ship here" << endl; return false;
+		}
+		else if (ship.position == "vertical") {
+			if (!CanPlaceShip(ship.y + i, ship.x, sea)) cout << "you can't place ship here" << endl; return false;
+		}
+		else if (ship.position == "") {  // пока еще думаю как можно сократить эту строчу( чтобы ее вообще не писать)
+			if (!CanPlaceShip(ship.y, ship.x, sea)) cout << "you can't place ship here" << endl; return false;
+		}
+	}
+	return true;
+} 
+bool ShipPlace(char sea[10][10], Ship ship) {
+	for (int i = 0; i < ship.length; i++) {
+		if (ship.position == "horizontal") sea[ship.y][ship.x + i] = '1';
+		else if (ship.position == "vertical")	sea[ship.y + i][ship.x] = '1';
+		else if (ship.position == "") sea[ship.y][ship.x] = '1';
+	}
+	return true;
+}
+bool CheckAndPlaceShip(char sea[10][10], Ship ship) {
 	bool AllGood = true;
-	if (ShipType == 1) {
-		if (CanPlaceShip(y, x, sea)) sea[y][x] = '1';
-		else {
-			cout << "you can't place ship here" << endl;
-			return false;
-		}
-	}
-	else if (ShipType == 2) {
-		if (pos == "horizontal") {
-			for (int i = 0; i < 2; i++) {
-				if (!CanPlaceShip(y, x + i, sea)) {
-					AllGood = false;
-					break;
-				}
-			}
-
-			if (AllGood) {
-				for (int i = 0; i < 2; i++) {
-					sea[y][x + i] = '1';
-				}
-				return true;
-			}
-			else {
-				cout << "you can't place ship here" << endl;
-				return false;
-			}
-		}
-		else if (pos == "vertical") {
-			for (int i = 0; i < 2; i++) {
-				if (!CanPlaceShip(y + i, x, sea)) {
-					AllGood = false;
-					break;
-				}
-			}
-
-			if (AllGood) {
-				for (int i = 0; i < 2; i++) {
-					sea[y + i][x] = '1';
-				}
-				return true;
-			}
-			else {
-				cout << "you can't place ship here" << endl;
-				return false;
-			}
-		}
-	}
-	else if (ShipType == 3) {	
-		if (pos == "horizontal") {
-			for (int i = 0; i < 3; i++) {
-				if (!CanPlaceShip(y, x + i, sea)) {
-					AllGood = false;
-					break;
-				}
-			}
-
-			if (AllGood) {
-				for (int i = 0; i < 3; i++) {
-					sea[y][x + i] = '1';
-				}
-				return true;
-			}
-			else {
-				cout << "you can't place ship here" << endl;
-				return false;
-			}
-		}
-		else if (pos == "vertical") {
-			for (int i = 0; i < 3; i++) {
-				if (!CanPlaceShip(y + i, x, sea)) {
-					AllGood = false;
-					break;
-				}
-			}
-
-			if (AllGood) {
-				for (int i = 0; i < 3; i++) {
-					sea[y + i][x] = '1';
-				}
-				return true;
-			}
-			else {
-				cout << "you can't place ship here" << endl;
-				return false;
-			}
-		}
-	}
-	else if (ShipType == 4){
-		if (pos == "horizontal") {
-			for (int i = 0; i < 4; i++) {
-				if (!CanPlaceShip(y, x + i, sea)) {
-					AllGood = false;
-					break;
-				}
-			}
-
-			if (AllGood) {
-				for (int i = 0; i < 4; i++) {
-					sea[y][x + i] = '1';
-				}
-				return true;
-			}
-			else {
-				cout << "you can't place ship here" << endl;
-				return false;
-			}
-		}
-		else if (pos == "vertical") {
-for (int i = 0; i < 4; i++) {
-	if (!CanPlaceShip(y + i, x, sea)) {
-		AllGood = false;
-		break;
-	}
+	if (ship.length == 1) if (ShipPlacementCheck(sea, ship)) ShipPlace(sea, ship);
+	else if (ship.length == 2) if (ShipPlacementCheck(sea, ship)) ShipPlace(sea, ship);
+	else if (ship.length == 3) if (ShipPlacementCheck(sea, ship)) ShipPlace(sea, ship);
+	else if (ship.length == 4) if (ShipPlacementCheck(sea, ship)) ShipPlace(sea, ship);
 }
 
-if (AllGood) {
-	for (int i = 0; i < 4; i++) {
-		sea[y + i][x] = '1';
-	}
-	return true;
-}
-else {
-	cout << "you can't place ship here" << endl;
-	return false;
-}
-		}
-	}
-	else {
-	cout << "you can't place ship here" << endl;
-	return false;
-	}
-}
-void EnterInfo(int* y, int* x, string* pos) {
+void EnterInfo(Ship *shipInfo,int ShipClass = 2) {
 	string full_cord;
 	char letx, lety;
 	cout << "enter left corner cordinats: "; cin >> full_cord;
 	letx = full_cord[0];
 	lety = full_cord[1];
-	*x = ConvertNumToNum(letx);
-	*y = ConvertLetToNum(lety);
-	cout << "position: "; cin >> *pos;
+	shipInfo -> x = ConvertNumToNum(letx);
+	shipInfo -> y = ConvertLetToNum(lety);
+	if (ShipClass > 1)cout << "position: "; cin >> shipInfo -> position;
 }
 
 void ShipPlacement(char sea[10][10]) {
-	int i = 1;
+	Ship shipInfo[10];
+	int i = 0;
 	char ship;
-	int x, y;
-	string pos, full_cord;
-	char letx, lety;
 	int _4th = 1;
 	int _3th = 2;
 	int _2th = 3;
 	int _1th = 4;
 
-	while (i <= 10) {
+	while (i < 10) {
 		MapView(sea);
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
 
 		if (ship == '1' && _1th != 0) {
-			cout << "enter cordinats: "; cin >> full_cord;
-			letx = full_cord[0];
-			lety = full_cord[1];
-			x = ConvertNumToNum(letx);
-			y = ConvertLetToNum(lety);
-
-			if (PlaceShip(sea, y, x, 1)) {
+			EnterInfo(&shipInfo[i], 1);
+			if (CheckAndPlaceShip(sea, shipInfo[i])) {
 				i++;
 				_1th--;
 			};
 		}
 		if (ship == '2' && _2th != 0) {
-			EnterInfo(&y, &x, &pos);
-			if (PlaceShip(sea, y, x, 2, pos)) {
+			EnterInfo(&shipInfo[i]);
+			if (CheckAndPlaceShip(sea, shipInfo[i])) {
 				i++;
 				_2th--;
 			}
 
 		}
 		if (ship == '3' && _2th != 0) {
-			EnterInfo(&y, &x, &pos);
-			if (PlaceShip(sea, y, x, 2, pos)) {
+			EnterInfo(&shipInfo[i]);
+			if (CheckAndPlaceShip(sea, shipInfo[i])) {
 				i++;
 				_3th--;
 			}
 
 		}
 		if (ship == '4' && _2th != 0) {
-			EnterInfo(&y, &x, &pos);
-			if (PlaceShip(sea, y, x, 2, pos)) {
+			EnterInfo(&shipInfo[i]);
+			if (CheckAndPlaceShip(sea, shipInfo[i])) {
 				i++;
 				_4th--;
 			}
@@ -261,6 +155,7 @@ void ShipPlacement(char sea[10][10]) {
 		}
 	}
 }
+
 bool IsAnyShipAlive(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -269,10 +164,10 @@ bool IsAnyShipAlive(char sea[10][10]) {
 	}
 	return false;
 }
-void GetShipPosition(char sea[10][10], int ShipsPosition[10][3]) {
+int GetShipPosition(char sea[10][10], int ShipsPosition[10][3]) {
 	for (int y = 0; y < 10; y++) {
 		for (int x = 0; x < 10; x++) {
-			if (sea[y][x] = '1') {
+			if (sea[y][x] == '1') {
 				for (int k = 0; k < 10; k++){
 					if (ShipsPosition[k][1] != sea[y][x] && ShipsPosition[k][2] != sea[y][x]) {
 						 
@@ -282,6 +177,7 @@ void GetShipPosition(char sea[10][10], int ShipsPosition[10][3]) {
 			}
 		}
 	}
+	return 0;
 }
 void HardBotTurn(char sea[10][10]) {
 	int ShipsPosition[10][3];
@@ -298,6 +194,7 @@ int main() {
 	char sea[10][10];    // игровое поле
 	MapReset(sea);
 	ShipPlacement(sea);
+
 	while (IsAnyShipAlive(sea)) {
 		HardBotTurn(sea);
 	}
