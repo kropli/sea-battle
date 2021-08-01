@@ -15,7 +15,7 @@ struct Ship {
 	int y;
 	int x;
 	int length;
-	string position;
+	string position = "";
 };
 int ConvertLetToNum(char letter) {    //   счет вертикального значения
 	switch (letter) {
@@ -71,13 +71,13 @@ bool CanPlaceShip(int y, int x, char sea[10][10]) {
 bool ShipPlacementCheck(char sea[10][10],Ship ship) { 
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal") {
-			if (!CanPlaceShip(ship.y, ship.x + i, sea)) cout << "you can't place ship here" << endl; return false;
+			if (!CanPlaceShip(ship.y, ship.x + i, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
 		else if (ship.position == "vertical") {
-			if (!CanPlaceShip(ship.y + i, ship.x, sea)) cout << "you can't place ship here" << endl; return false;
+			if (!CanPlaceShip(ship.y + i, ship.x, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
 		else if (ship.position == "") {  // пока еще думаю как можно сократить эту строчу( чтобы ее вообще не писать)
-			if (!CanPlaceShip(ship.y, ship.x, sea)) cout << "you can't place ship here" << endl; return false;
+			if (!CanPlaceShip(ship.y, ship.x, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
 	}
 	return true;
@@ -111,44 +111,44 @@ void EnterInfo(Ship *shipInfo,int ShipClass = 2) {
 
 void ShipPlacement(char sea[10][10]) {
 	Ship shipInfo[10];
-	int i = 0;
+	int ShipPlacementCount = 0;
 	char ship;
 	int _4th = 1;
 	int _3th = 2;
 	int _2th = 3;
 	int _1th = 4;
 
-	while (i < 10) {
+	while (ShipPlacementCount < 10) {
 		MapView(sea);
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
 
 		if (ship == '1' && _1th != 0) {
-			EnterInfo(&shipInfo[i], 1);
-			if (CheckAndPlaceShip(sea, shipInfo[i])) {
-				i++;
+			EnterInfo(&shipInfo[ShipPlacementCount], 1);
+			if (CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount])) {
+				ShipPlacementCount++;
 				_1th--;
 			};
 		}
 		if (ship == '2' && _2th != 0) {
-			EnterInfo(&shipInfo[i]);
-			if (CheckAndPlaceShip(sea, shipInfo[i])) {
-				i++;
+			EnterInfo(&shipInfo[ShipPlacementCount]);
+			if (CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount])) {
+				ShipPlacementCount++;
 				_2th--;
 			}
 
 		}
 		if (ship == '3' && _2th != 0) {
-			EnterInfo(&shipInfo[i]);
-			if (CheckAndPlaceShip(sea, shipInfo[i])) {
-				i++;
+			EnterInfo(&shipInfo[ShipPlacementCount]);
+			if (CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount])) {
+				ShipPlacementCount++;
 				_3th--;
 			}
 
 		}
 		if (ship == '4' && _2th != 0) {
-			EnterInfo(&shipInfo[i]);
-			if (CheckAndPlaceShip(sea, shipInfo[i])) {
-				i++;
+			EnterInfo(&shipInfo[ShipPlacementCount]);
+			if (CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount])) {
+				ShipPlacementCount++;
 				_4th--;
 			}
 
