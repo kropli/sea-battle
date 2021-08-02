@@ -9,8 +9,14 @@
 #include <cstring>
 #include <cstdlib>
 #include <string>
+#include <map>
 
 using namespace std;
+int _4th = 1;
+int _3th = 2;
+int _2th = 3;
+int _1th = 4;
+
 struct Ship {
 	int y;
 	int x;
@@ -76,85 +82,69 @@ bool ShipPlacementCheck(char sea[10][10],Ship ship) {
 		else if (ship.position == "vertical") {
 			if (!CanPlaceShip(ship.y + i, ship.x, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
-		else if (ship.position == "") {  // пока еще думаю как можно сократить эту строчу( чтобы ее вообще не писать)
+		else {  // пока еще думаю как можно сократить эту строчу(либо чтобы ее вообще не писать)
 			if (!CanPlaceShip(ship.y, ship.x, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
 	}
 	return true;
 } 
-bool ShipPlace(char sea[10][10], Ship ship) {
+void ShipPlace(char sea[10][10], Ship ship) {
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal") sea[ship.y][ship.x + i] = '1';
 		else if (ship.position == "vertical")	sea[ship.y + i][ship.x] = '1';
-		else if (ship.position == "") sea[ship.y][ship.x] = '1';
+		else sea[ship.y][ship.x] = '1';
 	}
-	return true;
+	if (ship.length == 1) _1th--;     // это тоже пока что временный вариант, я уверен что это можно как-то сократить 
+	else if (ship.length == 2) _2th--;
+	else if (ship.length == 3) _3th--;
+	else if (ship.length == 4) _4th--;
 }
-bool CheckAndPlaceShip(char sea[10][10], Ship ship) {
+void CheckAndPlaceShip(char sea[10][10], Ship ship, int* PLacementCount) {
 	bool AllGood = true;
-	if (ship.length == 1) if (ShipPlacementCheck(sea, ship)) ShipPlace(sea, ship);
-	else if (ship.length == 2) if (ShipPlacementCheck(sea, ship)) ShipPlace(sea, ship);
-	else if (ship.length == 3) if (ShipPlacementCheck(sea, ship)) ShipPlace(sea, ship);
-	else if (ship.length == 4) if (ShipPlacementCheck(sea, ship)) ShipPlace(sea, ship);
+	if (ship.length == 1) if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); PLacementCount++; }
+	else if (ship.length == 2) if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); PLacementCount++;}
+	else if (ship.length == 3) if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); PLacementCount++;}
+	else if (ship.length == 4) if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); PLacementCount++;}
 }
 
-void EnterInfo(Ship *shipInfo,int ShipClass = 2) {
+void EnterInfo(Ship* shipInfo, char ShipClass) {
 	string full_cord;
 	char letx, lety;
-	cout << "enter left corner cordinats: "; cin >> full_cord;
-	letx = full_cord[0];
-	lety = full_cord[1];
-	shipInfo -> x = ConvertNumToNum(letx);
-	shipInfo -> y = ConvertLetToNum(lety);
-	if (ShipClass > 1)cout << "position: "; cin >> shipInfo -> position;
+	int ShipCount = 0;
+
+	if (ShipClass == '1') ShipCount = _1th;
+	else if (ShipClass == '2') ShipCount = _2th;
+	else if (ShipClass == '3') ShipCount = _3th;
+	else if (ShipClass == '4') ShipCount = _4th;
+
+	cout << ShipClass << "\t" << ShipCount;
+	if (ShipCount > 0) {
+		cout << "enter left corner cordinats: "; cin >> full_cord;
+		letx = full_cord[0];
+		lety = full_cord[1];
+		shipInfo->x = ConvertNumToNum(letx);
+		shipInfo->y = ConvertLetToNum(lety);
+		shipInfo->length = ShipClass;
+		if (ShipClass != 1) { cout << "position: "; cin >> shipInfo->position; }
+	}
 }
 
 void ShipPlacement(char sea[10][10]) {
 	Ship shipInfo[10];
 	int ShipPlacementCount = 0;
 	char ship;
-	int _4th = 1;
-	int _3th = 2;
-	int _2th = 3;
-	int _1th = 4;
+	
 
 	while (ShipPlacementCount < 10) {
 		MapView(sea);
 		cout << "choose ship(1/2/3/4): "; cin >> ship;
 
-		if (ship == '1' && _1th != 0) {
-			EnterInfo(&shipInfo[ShipPlacementCount], 1);
-			if (CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount])) {
-				ShipPlacementCount++;
-				_1th--;
-			};
-		}
-		if (ship == '2' && _2th != 0) {
-			EnterInfo(&shipInfo[ShipPlacementCount]);
-			if (CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount])) {
-				ShipPlacementCount++;
-				_2th--;
-			}
-
-		}
-		if (ship == '3' && _2th != 0) {
-			EnterInfo(&shipInfo[ShipPlacementCount]);
-			if (CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount])) {
-				ShipPlacementCount++;
-				_3th--;
-			}
-
-		}
-		if (ship == '4' && _2th != 0) {
-			EnterInfo(&shipInfo[ShipPlacementCount]);
-			if (CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount])) {
-				ShipPlacementCount++;
-				_4th--;
-			}
-
-		}
-	}
+		EnterInfo(&shipInfo[ShipPlacementCount], ship);
+		CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount], &ShipPlacementCount);
+	} 
+		
 }
+
 
 bool IsAnyShipAlive(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
@@ -198,4 +188,5 @@ int main() {
 	while (IsAnyShipAlive(sea)) {
 		HardBotTurn(sea);
 	}
+	
 }
