@@ -1,21 +1,12 @@
-﻿//      расставление кораблей
-//      хард режим для бота
-
-//                                       |  -
-//                               mass   [y][x]
-//                  система  0 - пустое поле     1 - часть корабля  2 - подбитая часть корабля 
-//                  визуал       " "                     #                       *
-#include <iostream> 
+﻿#include <iostream> 
 #include <cstring>
 #include <cstdlib>
 #include <string>
 #include <map>
 
 using namespace std;
-int _4th = 1;
-int _3th = 2;
-int _2th = 3;
-int _1th = 4;
+
+std::map<int, int> shipCount;
 
 struct Ship {
 	int y;
@@ -94,24 +85,17 @@ void ShipPlace(char sea[10][10], Ship ship) {
 		else if (ship.position == "vertical") { sea[ship.y + i][ship.x - 1] = '1';}
 		else sea[ship.y][ship.x - 1] = '1';
 	}
-	if (ship.length == 1) _1th--;     // это тоже пока что временный вариант, я уверен что это можно как-то сократить 
-	else if (ship.length == 2) _2th--;
-	else if (ship.length == 3) _3th--;
-	else if (ship.length == 4) _4th--;
+
+	shipCount[ship.length]--;
 }
-void CheckAndPlaceShip(char sea[10][10], Ship ship, int* PLacementCount) {
-	if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); PLacementCount++; }
+void CheckAndPlaceShip(char sea[10][10], Ship ship, int* placementCount) {
+	if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); placementCount++; }
 }
 
-void EnterInfo(Ship* shipInfo, char ShipClass) {
+void EnterInfo(Ship* shipInfo, int shipLength) {
 	string full_cord;
 	char letx, lety;
-	int ShipCount = 0;
-
-	if (ShipClass == '1') ShipCount = _1th;
-	else if (ShipClass == '2') ShipCount = _2th;
-	else if (ShipClass == '3') ShipCount = _3th;
-	else if (ShipClass == '4') ShipCount = _4th;
+	int ShipCount = shipCount[shipLength];
 
 	if (ShipCount > 0) {
 		cout << "enter left corner cordinats: "; cin >> full_cord;
@@ -119,16 +103,19 @@ void EnterInfo(Ship* shipInfo, char ShipClass) {
 		lety = full_cord[1];
 		shipInfo->x = ConvertNumToNum(letx);
 		shipInfo->y = ConvertLetToNum(lety);
-		shipInfo->length = ConvertNumToNum(ShipClass);
-		if (ShipClass != '1') { cout << "position: "; cin >> shipInfo->position; }
+		shipInfo->length = shipLength;
+		if (shipLength != '1') { cout << "position: "; cin >> shipInfo->position; }
 	}
 }
 
 void ShipPlacement(char sea[10][10]) {
 	Ship shipInfo[10];
 	int ShipPlacementCount = 0;
-	char ship;
-	
+	int ship;
+	shipCount[1] = 4;
+	shipCount[2] = 3;
+	shipCount[3] = 2;
+	shipCount[4] = 1;
 
 	while (ShipPlacementCount < 10) {
 		MapView(sea);
