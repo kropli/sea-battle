@@ -89,11 +89,7 @@ bool ShipPlacementCheck(char sea[10][10],Ship ship) {
 	return true;
 } 
 void ShipPlace(char sea[10][10], Ship ship) {
-	cout << ship.length << " = length" << endl;
-	cout << ship.position << " = position" << endl;
-	cout << ship.x << " = x" << ship.y << " = y" << endl;
 	for (int i = 0; i < ship.length; i++) {
-		cout << "choosing position" << endl;
 		if (ship.position == "horizontal") { sea[ship.y][(ship.x + i) - 1] = '1';}
 		else if (ship.position == "vertical") { sea[ship.y + i][ship.x - 1] = '1';}
 		else sea[ship.y][ship.x - 1] = '1';
@@ -104,9 +100,6 @@ void ShipPlace(char sea[10][10], Ship ship) {
 	else if (ship.length == 4) _4th--;
 }
 void CheckAndPlaceShip(char sea[10][10], Ship ship, int* PLacementCount) {
-	cout << ship.length << " = length" << endl;
-	cout << ship.position << " = position" << endl;
-	cout << ship.x << " = x" << ship.y << " = y" << endl;
 	if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); PLacementCount++; }
 }
 
