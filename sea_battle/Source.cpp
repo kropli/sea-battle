@@ -82,9 +82,12 @@ bool CanPlaceShip(char sea[10][10],Ship ship) {
 } 
 void PlaceShip(char sea[10][10], Ship ship) {
 	for (int i = 0; i < ship.length; i++) {
-		if (ship.position == "horizontal") { sea[ship.y][(ship.x + i) - 1] = '1';}
-		else if (ship.position == "vertical") { sea[ship.y + i][ship.x - 1] = '1';}
-		else sea[ship.y][ship.x - 1] = '1';
+		if (ship.position == "horizontal") 
+			sea[ship.y][(ship.x + i) - 1] = '1';
+		else 
+			sea[ship.y + i][ship.x - 1] = '1'; 
+		//else if (ship.position == "vertical") { sea[ship.y + i][ship.x - 1] = '1';}
+		//else sea[ship.y][ship.x - 1] = '1';
 	}
 	shipsLeftToPlace[ship.length]--;
 }
