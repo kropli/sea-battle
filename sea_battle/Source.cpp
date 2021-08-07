@@ -66,6 +66,7 @@ bool CanPlaceShip(int y, int x, char sea[10][10]) {
 	return true;
 }
 bool ShipPlacementCheck(char sea[10][10],Ship ship) { 
+	
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal") {
 			if (!CanPlaceShip(ship.y, ship.x + i - 1, sea)) { cout << "you can't place ship here" << endl; return false; }
@@ -127,6 +128,7 @@ void ShipPlacement(char sea[10][10]) {
 	while (ShipPlacementCount < 10) {
 		Show(sea);
 		Ship ship = GetShipInfo();
+		if (ship.position == "") continue;
 		CheckAndPlaceShip(sea, ship, &ShipPlacementCount);
 	} 
 }
