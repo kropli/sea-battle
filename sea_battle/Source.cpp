@@ -86,11 +86,7 @@ void PlaceShip(char sea[10][10], Ship ship) {
 		else if (ship.position == "vertical") { sea[ship.y + i][ship.x - 1] = '1';}
 		else sea[ship.y][ship.x - 1] = '1';
 	}
-
 	shipsLeftToPlace[ship.length]--;
-}
-void CheckAndPlaceShip(char sea[10][10], Ship ship, int* placementCount) {
-	if (CanPlaceShip(sea, ship)) { PlaceShip(sea, ship); placementCount++; }
 }
 
 Ship GetShipInfo() {
@@ -115,21 +111,28 @@ Ship GetShipInfo() {
 	return ship;
 }
 
+bool ShouldPlaceShips() {
+	for (int shipLength = 1; shipLength <= 4; shipLength++)
+	{
+		if (shipsLeftToPlace[shipLength] > 0) return true;
+	}
+	return false;
+}
+
 void ShipPlacement(char sea[10][10]) {
 	Ship ships[10]; // use list? 
 	// https://appdividend.com/2019/06/12/cpp-list-tutorial-with-example-list-in-c-standard-template-library-stl/
 
-	int ShipPlacementCount = 0;
 	shipsLeftToPlace[1] = 4;
 	shipsLeftToPlace[2] = 3;
 	shipsLeftToPlace[3] = 2;
 	shipsLeftToPlace[4] = 1;
 
-	while (ShipPlacementCount < 10) {
+	while (ShouldPlaceShips()) {
 		Show(sea);
 		Ship ship = GetShipInfo();
 		if (ship.position == "") continue;
-		CheckAndPlaceShip(sea, ship, &ShipPlacementCount);
+		if (CanPlaceShip(sea, ship)) PlaceShip(sea, ship);
 	} 
 }
 
