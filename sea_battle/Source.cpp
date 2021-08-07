@@ -49,7 +49,7 @@ void MapReset(char sea[10][10]) {
 		}
 	}
 }
-void MapView(char sea[10][10]) {
+void Show(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
 			cout << sea[i][j] << " ";
@@ -120,7 +120,7 @@ void ShipPlacement(char sea[10][10]) {
 	shipCount[4] = 1;
 
 	while (ShipPlacementCount < 10) {
-		MapView(sea);
+		Show(sea);
 		cout << "choose ship length (1/2/3/4): "; cin >> shipLength;
 
 		EnterInfo(&ships[ShipPlacementCount], shipLength);
