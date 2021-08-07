@@ -109,9 +109,11 @@ void EnterInfo(Ship* shipInfo, int shipLength) {
 }
 
 void ShipPlacement(char sea[10][10]) {
-	Ship shipInfo[10];
+	Ship ships[10]; // use list? 
+	// https://appdividend.com/2019/06/12/cpp-list-tutorial-with-example-list-in-c-standard-template-library-stl/
+
 	int ShipPlacementCount = 0;
-	int ship;
+	int shipLength;
 	shipCount[1] = 4;
 	shipCount[2] = 3;
 	shipCount[3] = 2;
@@ -119,15 +121,14 @@ void ShipPlacement(char sea[10][10]) {
 
 	while (ShipPlacementCount < 10) {
 		MapView(sea);
-		cout << "choose ship(1/2/3/4): "; cin >> ship;
+		cout << "choose ship length (1/2/3/4): "; cin >> shipLength;
 
-		EnterInfo(&shipInfo[ShipPlacementCount], ship);
-		CheckAndPlaceShip(sea, shipInfo[ShipPlacementCount], &ShipPlacementCount);
+		EnterInfo(&ships[ShipPlacementCount], shipLength);
+		CheckAndPlaceShip(sea, ships[ShipPlacementCount], &ShipPlacementCount);
 	} 
-		
 }
 
-
+// extract to Bot file
 bool IsAnyShipAlive(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
@@ -160,6 +161,7 @@ void HardBotTurn(char sea[10][10]) {
 	}
 
 }
+// end of extract to Bot file
 
 int main() {
 	srand(time(NULL));
@@ -170,5 +172,4 @@ int main() {
 	while (IsAnyShipAlive(sea)) {
 		HardBotTurn(sea);
 	}
-	
 }
