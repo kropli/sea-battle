@@ -69,9 +69,9 @@ bool CanPlaceShip(char sea[10][10],Ship ship) {
 	bool canPlace;
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal") 
-			canPlace = !CanPlaceShip(ship.y, ship.x + i - 1, sea);				
+			canPlace = CanPlaceShip(ship.y, ship.x + i - 1, sea);				
 		else 
-			canPlace = !CanPlaceShip(ship.y + i, ship.x - 1, sea);
+			canPlace = CanPlaceShip(ship.y + i, ship.x - 1, sea);
 		
 		if (!canPlace) {
 			cout << "you can't place ship here" << endl;
