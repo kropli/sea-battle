@@ -6,7 +6,7 @@
 
 using namespace std;
 
-std::map<int, int> shipCount;
+std::map<int, int> shipsLeftToPlace;
 
 struct Ship {
 	int y;
@@ -86,26 +86,32 @@ void ShipPlace(char sea[10][10], Ship ship) {
 		else sea[ship.y][ship.x - 1] = '1';
 	}
 
-	shipCount[ship.length]--;
+	shipsLeftToPlace[ship.length]--;
 }
 void CheckAndPlaceShip(char sea[10][10], Ship ship, int* placementCount) {
 	if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); placementCount++; }
 }
 
-void EnterInfo(Ship* shipInfo, int shipLength) {
-	string full_cord;
-	char letx, lety;
-	int ShipCount = shipCount[shipLength];
+Ship GetShipInfo() {
+	Ship ship;
+	int shipLength;
+	cout << "choose ship length (1/2/3/4): "; cin >> shipLength;
 
-	if (ShipCount > 0) {
-		cout << "enter left corner cordinats: "; cin >> full_cord;
-		letx = full_cord[0];
-		lety = full_cord[1];
-		shipInfo->x = ConvertNumToNum(letx);
-		shipInfo->y = ConvertLetToNum(lety);
-		shipInfo->length = shipLength;
-		if (shipLength != '1') { cout << "position: "; cin >> shipInfo->position; }
+	if (shipsLeftToPlace[shipLength] == 0) {
+		cout << "cannot place ship of this length - max count of such ships already placed";
+		return ship;
 	}
+	ship.length = shipLength;
+	string full_cord;
+	cout << "enter left corner cordinats, for example 9A: "; cin >> full_cord;
+	ship.x = ConvertNumToNum(full_cord[0]);
+	ship.y = ConvertLetToNum(full_cord[1]);
+	ship.position = "horizontal";
+	if (shipLength != '1') { 
+		cout << "position: ";
+		cin >> ship.position;
+	}
+	return ship;
 }
 
 void ShipPlacement(char sea[10][10]) {
@@ -113,18 +119,15 @@ void ShipPlacement(char sea[10][10]) {
 	// https://appdividend.com/2019/06/12/cpp-list-tutorial-with-example-list-in-c-standard-template-library-stl/
 
 	int ShipPlacementCount = 0;
-	int shipLength;
-	shipCount[1] = 4;
-	shipCount[2] = 3;
-	shipCount[3] = 2;
-	shipCount[4] = 1;
+	shipsLeftToPlace[1] = 4;
+	shipsLeftToPlace[2] = 3;
+	shipsLeftToPlace[3] = 2;
+	shipsLeftToPlace[4] = 1;
 
 	while (ShipPlacementCount < 10) {
 		Show(sea);
-		cout << "choose ship length (1/2/3/4): "; cin >> shipLength;
-
-		EnterInfo(&ships[ShipPlacementCount], shipLength);
-		CheckAndPlaceShip(sea, ships[ShipPlacementCount], &ShipPlacementCount);
+		Ship ship = GetShipInfo();
+		CheckAndPlaceShip(sea, ship, &ShipPlacementCount);
 	} 
 }
 
