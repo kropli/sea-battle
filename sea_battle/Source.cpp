@@ -71,11 +71,8 @@ bool CanPlaceShip(char sea[10][10],Ship ship) {
 		if (ship.position == "horizontal") {
 			if (!CanPlaceShip(ship.y, ship.x + i - 1, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
-		else if (ship.position == "vertical") {
+		else {
 			if (!CanPlaceShip(ship.y + i, ship.x - 1, sea)) { cout << "you can't place ship here" << endl; return false; }
-		}
-		else {  // пока еще думаю как можно сократить эту строчу(либо чтобы ее вообще не писать)
-			if (!CanPlaceShip(ship.y, ship.x - 1, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
 	}
 	return true;
