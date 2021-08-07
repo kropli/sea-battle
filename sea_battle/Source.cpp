@@ -61,7 +61,7 @@ void MapReset(char sea[10][10]) {
 void MapView(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			cout << sea[i][j];
+			cout << sea[i][j] << " ";
 		}
 		cout << endl;
 	}
@@ -77,22 +77,22 @@ bool CanPlaceShip(int y, int x, char sea[10][10]) {
 bool ShipPlacementCheck(char sea[10][10],Ship ship) { 
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal") {
-			if (!CanPlaceShip(ship.y, ship.x + i, sea)) { cout << "you can't place ship here" << endl; return false; }
+			if (!CanPlaceShip(ship.y, ship.x + i - 1, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
 		else if (ship.position == "vertical") {
-			if (!CanPlaceShip(ship.y + i, ship.x, sea)) { cout << "you can't place ship here" << endl; return false; }
+			if (!CanPlaceShip(ship.y + i, ship.x - 1, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
 		else {  // пока еще думаю как можно сократить эту строчу(либо чтобы ее вообще не писать)
-			if (!CanPlaceShip(ship.y, ship.x, sea)) { cout << "you can't place ship here" << endl; return false; }
+			if (!CanPlaceShip(ship.y, ship.x - 1, sea)) { cout << "you can't place ship here" << endl; return false; }
 		}
 	}
 	return true;
 } 
 void ShipPlace(char sea[10][10], Ship ship) {
 	for (int i = 0; i < ship.length; i++) {
-		if (ship.position == "horizontal") sea[ship.y][ship.x + i] = '1';
-		else if (ship.position == "vertical")	sea[ship.y + i][ship.x] = '1';
-		else sea[ship.y][ship.x] = '1';
+		if (ship.position == "horizontal") { sea[ship.y][(ship.x + i) - 1] = '1';}
+		else if (ship.position == "vertical") { sea[ship.y + i][ship.x - 1] = '1';}
+		else sea[ship.y][ship.x - 1] = '1';
 	}
 	if (ship.length == 1) _1th--;     // это тоже пока что временный вариант, я уверен что это можно как-то сократить 
 	else if (ship.length == 2) _2th--;
@@ -117,15 +117,14 @@ void EnterInfo(Ship* shipInfo, char ShipClass) {
 	else if (ShipClass == '3') ShipCount = _3th;
 	else if (ShipClass == '4') ShipCount = _4th;
 
-	cout << ShipClass << "\t" << ShipCount;
 	if (ShipCount > 0) {
 		cout << "enter left corner cordinats: "; cin >> full_cord;
 		letx = full_cord[0];
 		lety = full_cord[1];
 		shipInfo->x = ConvertNumToNum(letx);
 		shipInfo->y = ConvertLetToNum(lety);
-		shipInfo->length = ShipClass;
-		if (ShipClass != 1) { cout << "position: "; cin >> shipInfo->position; }
+		shipInfo->length = ConvertNumToNum(ShipClass);
+		if (ShipClass != '1') { cout << "position: "; cin >> shipInfo->position; }
 	}
 }
 
