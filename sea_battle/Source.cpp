@@ -95,7 +95,13 @@ void PlaceShip(char sea[10][10], Ship ship) {
 Ship GetShipInfo() {
 	Ship ship;
 	int shipLength;
-	cout << "choose ship length (1/2/3/4): "; cin >> shipLength;
+	cout << "choose ship length (";
+	if (shipsLeftToPlace[1] > 0) cout << "1";
+	if (shipsLeftToPlace[2] > 0) cout << "/2";
+	if (shipsLeftToPlace[3] > 0) cout << "/3";
+	if (shipsLeftToPlace[4] > 0) cout << "/4";
+	cout << "):";
+	cin >> shipLength;
 
 	if (shipsLeftToPlace[shipLength] == 0) {
 		cout << "cannot place ship of this length - max count of such ships already placed";
