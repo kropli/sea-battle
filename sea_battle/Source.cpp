@@ -65,7 +65,7 @@ bool CanPlaceShip(int y, int x, char sea[10][10]) {
 				return false;
 	return true;
 }
-bool ShipPlacementCheck(char sea[10][10],Ship ship) { 
+bool CanPlaceShip(char sea[10][10],Ship ship) { 
 	
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal") {
@@ -80,7 +80,7 @@ bool ShipPlacementCheck(char sea[10][10],Ship ship) {
 	}
 	return true;
 } 
-void ShipPlace(char sea[10][10], Ship ship) {
+void PlaceShip(char sea[10][10], Ship ship) {
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal") { sea[ship.y][(ship.x + i) - 1] = '1';}
 		else if (ship.position == "vertical") { sea[ship.y + i][ship.x - 1] = '1';}
@@ -90,7 +90,7 @@ void ShipPlace(char sea[10][10], Ship ship) {
 	shipsLeftToPlace[ship.length]--;
 }
 void CheckAndPlaceShip(char sea[10][10], Ship ship, int* placementCount) {
-	if (ShipPlacementCheck(sea, ship)) { ShipPlace(sea, ship); placementCount++; }
+	if (CanPlaceShip(sea, ship)) { PlaceShip(sea, ship); placementCount++; }
 }
 
 Ship GetShipInfo() {
@@ -132,6 +132,21 @@ void ShipPlacement(char sea[10][10]) {
 		CheckAndPlaceShip(sea, ship, &ShipPlacementCount);
 	} 
 }
+
+//
+//do {
+//	PlaceShip()
+//}while(ShouldPlaceShips())
+// 
+//PlaceShip() {
+//	Ship ship = RequestShipInfo();
+//	string errors = CanPlace(ship);
+//	if (errors == "")
+//		Place(sea, ship) // Sea; sea.Place(ship)
+//	else
+//		cout << errors
+//}
+
 
 // extract to Bot file
 bool IsAnyShipAlive(char sea[10][10]) {
