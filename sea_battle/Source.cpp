@@ -14,6 +14,30 @@ struct Ship {
 	int length;
 	string position = "";
 };
+
+int ConvertLetToNum(char letter);
+int ConvertNumToNum(char num);
+void MapReset(char sea[10][10]);
+void Show(char sea[10][10]);
+bool CanShipBePlacedHere(int y, int x, char sea[10][10]);
+bool CanPlaceShip(char sea[10][10], Ship ship);
+void PlaceShip(char sea[10][10], Ship ship);
+Ship GetShipInfo();
+bool ShouldPlaceShips();
+void ShipPlacement(char sea[10][10]);
+
+int main() {
+	srand(time(0));
+	char sea[10][10];    // игровое поле
+	MapReset(sea);
+	ShipPlacement(sea);
+
+	//while (IsAnyShipAlive(sea)) {
+	//	HardBotTurn(sea);
+	//}
+}
+
+
 int ConvertLetToNum(char letter) {    //   счет вертикального значения
 	switch (letter) {
 	case 'A':
@@ -58,36 +82,34 @@ void Show(char sea[10][10]) {
 	}
 }
 
-bool CanPlaceShip(int y, int x, char sea[10][10]) {
+bool CanShipBePlacedHere(int y, int x, char sea[10][10]) {
 	for (int yi = -1; yi <= 1; yi++)
 		for (int xi = -1; xi <= 1; xi++)
 			if (sea[y + yi][x + xi] == '1')
 				return false;
 	return true;
 }
-bool CanPlaceShip(char sea[10][10],Ship ship) { 
+bool CanPlaceShip(char sea[10][10], Ship ship) {
 	bool canPlace;
 	for (int i = 0; i < ship.length; i++) {
-		if (ship.position == "horizontal") 
-			canPlace = CanPlaceShip(ship.y, ship.x + i - 1, sea);				
-		else 
-			canPlace = CanPlaceShip(ship.y + i, ship.x - 1, sea);
-		
+		if (ship.position == "horizontal")
+			canPlace = CanShipBePlacedHere(ship.y, ship.x + i - 1, sea);
+		else
+			canPlace = CanShipBePlacedHere(ship.y + i, ship.x - 1, sea);
+
 		if (!canPlace) {
 			cout << "you can't place ship here" << endl;
 			return false;
 		}
 	}
 	return true;
-} 
+}
 void PlaceShip(char sea[10][10], Ship ship) {
 	for (int i = 0; i < ship.length; i++) {
-		if (ship.position == "horizontal") 
+		if (ship.position == "horizontal")
 			sea[ship.y][(ship.x + i) - 1] = '1';
-		else 
-			sea[ship.y + i][ship.x - 1] = '1'; 
-		//else if (ship.position == "vertical") { sea[ship.y + i][ship.x - 1] = '1';}
-		//else sea[ship.y][ship.x - 1] = '1';
+		else
+			sea[ship.y + i][ship.x - 1] = '1';
 	}
 	shipsLeftToPlace[ship.length]--;
 }
@@ -113,7 +135,7 @@ Ship GetShipInfo() {
 	ship.x = ConvertNumToNum(full_cord[0]);
 	ship.y = ConvertLetToNum(full_cord[1]);
 	ship.position = "horizontal";
-	if (shipLength != 1) { 
+	if (shipLength != 1) {
 		cout << "position: ";
 		cin >> ship.position;
 	}
@@ -127,7 +149,6 @@ bool ShouldPlaceShips() {
 	}
 	return false;
 }
-
 void ShipPlacement(char sea[10][10]) {
 
 	shipsLeftToPlace[1] = 4;
@@ -140,7 +161,7 @@ void ShipPlacement(char sea[10][10]) {
 		Ship ship = GetShipInfo();
 		if (ship.position == "") continue;
 		if (CanPlaceShip(sea, ship)) PlaceShip(sea, ship);
-	} 
+	}
 }
 
 //
@@ -178,14 +199,3 @@ void HardBotTurn(char sea[10][10]) {
 
 }
 // end of extract to Bot file
-
-int main() {
-	srand(time(NULL));
-	char sea[10][10];    // игровое поле
-	MapReset(sea);
-	ShipPlacement(sea);
-
-	//while (IsAnyShipAlive(sea)) {
-	//	HardBotTurn(sea);
-	//}
-}
