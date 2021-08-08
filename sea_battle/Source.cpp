@@ -113,7 +113,7 @@ Ship GetShipInfo() {
 	ship.x = ConvertNumToNum(full_cord[0]);
 	ship.y = ConvertLetToNum(full_cord[1]);
 	ship.position = "horizontal";
-	if (shipLength != '1') { 
+	if (shipLength != 1) { 
 		cout << "position: ";
 		cin >> ship.position;
 	}
@@ -129,8 +129,6 @@ bool ShouldPlaceShips() {
 }
 
 void ShipPlacement(char sea[10][10]) {
-	Ship ships[10]; // use list? 
-	// https://appdividend.com/2019/06/12/cpp-list-tutorial-with-example-list-in-c-standard-template-library-stl/
 
 	shipsLeftToPlace[1] = 4;
 	shipsLeftToPlace[2] = 3;
@@ -169,21 +167,7 @@ bool IsAnyShipAlive(char sea[10][10]) {
 	}
 	return false;
 }
-int GetShipPosition(char sea[10][10], int ShipsPosition[10][3]) {
-	for (int y = 0; y < 10; y++) {
-		for (int x = 0; x < 10; x++) {
-			if (sea[y][x] == '1') {
-				for (int k = 0; k < 10; k++){
-					if (ShipsPosition[k][1] != sea[y][x] && ShipsPosition[k][2] != sea[y][x]) {
-						 
-					}
-				}
-				
-			}
-		}
-	}
-	return 0;
-}
+int GetShipPosition(char sea[10][10], int ShipsPosition[10][3]) {}
 void HardBotTurn(char sea[10][10]) {
 	int ShipsPosition[10][3];
 
@@ -201,7 +185,7 @@ int main() {
 	MapReset(sea);
 	ShipPlacement(sea);
 
-	while (IsAnyShipAlive(sea)) {
-		HardBotTurn(sea);
-	}
+	//while (IsAnyShipAlive(sea)) {
+	//	HardBotTurn(sea);
+	//}
 }
