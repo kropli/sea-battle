@@ -47,7 +47,11 @@ void MapReset(char sea[10][10]) {
 	}
 }
 void Show(char sea[10][10]) {
+	char letter;
+	cout << "  1 2 3 4 5 6 7 8 9 10" << endl;
 	for (int i = 0; i < 10; i++) {
+		letter = 65 + i;
+		cout << letter << " ";
 		for (int j = 0; j < 10; j++) {
 			cout << sea[i][j] << " ";
 		}
