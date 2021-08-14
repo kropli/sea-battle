@@ -6,7 +6,7 @@
 
 using namespace std;
 
-std::map<int, int> shipsLeftToPlace;
+map<int, int> shipsLeftToPlace;
 
 struct Ship {
 	int y;
@@ -20,7 +20,7 @@ int ConvertNumToNum(char num);
 void MapReset(char sea[10][10]);
 void Show(char sea[10][10]);
 bool CanShipBePlacedHere(int y, int x, char sea[10][10]);
-bool CanPlaceShip(char sea[10][10], Ship ship);
+string CanPlaceShip(char sea[10][10], Ship ship);
 void PlaceShip(char sea[10][10], Ship ship);
 Ship GetShipInfo();
 bool ShouldPlaceShips();
@@ -89,7 +89,7 @@ bool CanShipBePlacedHere(int y, int x, char sea[10][10]) {
 				return false;
 	return true;
 }
-bool CanPlaceShip(char sea[10][10], Ship ship) {
+string CanPlaceShip(char sea[10][10], Ship ship) {
 	bool canPlace;
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal")
@@ -98,11 +98,10 @@ bool CanPlaceShip(char sea[10][10], Ship ship) {
 			canPlace = CanShipBePlacedHere(ship.y + i, ship.x - 1, sea);
 
 		if (!canPlace) {
-			cout << "you can't place ship here" << endl;
-			return false;
+			return "you can't place ship here";
 		}
 	}
-	return true;
+	return " ";
 }
 void PlaceShip(char sea[10][10], Ship ship) {
 	for (int i = 0; i < ship.length; i++) {
@@ -160,7 +159,8 @@ void ShipPlacement(char sea[10][10]) {
 		Show(sea);
 		Ship ship = GetShipInfo();
 		if (ship.position == "") continue;
-		if (CanPlaceShip(sea, ship)) PlaceShip(sea, ship);
+		if (CanPlaceShip(sea, ship) == " ") PlaceShip(sea, ship);
+		else cout << CanPlaceShip;
 	}
 }
 
@@ -184,7 +184,7 @@ void ShipPlacement(char sea[10][10]) {
 //	for (int i = 0; i < 10; i++) {
 //		for (int j = 0; j < 10; j++) {
 //			if (sea[i][j] == '1') return true;
-//		}
+//		} 
 //	}
 //	return false;
 //}
