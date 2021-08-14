@@ -3,6 +3,12 @@
 #ifndef FunctionsForShip
 #define FunctionsForShip
 
+struct Ship {
+	int y;
+	int x;
+	int length;
+	std::string position = "";
+};
 
 int ConvertLetToNum(char letter);
 int ConvertNumToNum(char num);
