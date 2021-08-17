@@ -3,6 +3,9 @@
 #include <map>
 using namespace std;
 
+const char ShipCell = '1';
+const char EmptyCell = '0';
+
 map<int, int> shipsLeftToPlace;
 struct Ship {
 	int y;
@@ -42,7 +45,7 @@ int ConvertNumToNum(char num) {    //  счет горизонтального �
 void MapReset(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
-			sea[i][j] = '0';
+			sea[i][j] = EmptyCell;
 		}
 	}
 }
@@ -59,33 +62,34 @@ void Show(char sea[10][10]) {
 	}
 }
 
-bool CanShipBePlacedHere(int y, int x, char sea[10][10]) {
+bool CanShipPartBePlacedHere(int y, int x, char sea[10][10]) {
 	for (int yi = -1; yi <= 1; yi++)
 		for (int xi = -1; xi <= 1; xi++)
-			if (sea[y + yi][x + xi] == '1')
+			if (sea[y + yi][x + xi] == ShipCell)
 				return false;
 	return true;
 }
-string CanPlaceShip(char sea[10][10], Ship ship) {
+bool CanPlaceShip(char sea[10][10], Ship ship) {
 	bool canPlace;
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal")
-			canPlace = CanShipBePlacedHere(ship.y, ship.x + i - 1, sea);
+			canPlace = CanShipPartBePlacedHere(ship.y, ship.x + i - 1, sea);
 		else
-			canPlace = CanShipBePlacedHere(ship.y + i, ship.x - 1, sea);
+			canPlace = CanShipPartBePlacedHere(ship.y + i, ship.x - 1, sea);
 
 		if (!canPlace) {
-			return "you can't place ship here";
+			cout << "you can't place ship here";
+			return false;
 		}
 	}
-	return " ";
+	return true;
 }
 void PlaceShip(char sea[10][10], Ship ship) {
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal")
-			sea[ship.y][(ship.x + i) - 1] = '1';
+			sea[ship.y][(ship.x + i) - 1] = ShipCell;
 		else
-			sea[ship.y + i][ship.x - 1] = '1';
+			sea[ship.y + i][ship.x - 1] = ShipCell;
 	}
 	shipsLeftToPlace[ship.length]--;
 }
@@ -99,12 +103,13 @@ Ship GetShipInfo() {
 	if (shipsLeftToPlace[3] > 0) cout << "/3";
 	if (shipsLeftToPlace[4] > 0) cout << "/4";
 	cout << "):";
-	cin >> shipLength;
-
-	if (shipsLeftToPlace[shipLength] == 0) {
-		cout << "cannot place ship of this length - max count of such ships already placed";
-		return ship;
+	while (shipsLeftToPlace[shipLength] != 0) {
+		cin >> shipLength;
+		if (shipsLeftToPlace[shipLength] == 0) {
+			cout << "cannot place ship of this length - max count of such ships already placed" << endl;
+		}
 	}
+	
 	ship.length = shipLength;
 	string full_cord;
 	cout << "enter left corner cordinats, for example 9A: "; cin >> full_cord;
@@ -135,8 +140,6 @@ void ShipPlacement(char sea[10][10]) {
 	while (ShouldPlaceShips()) {
 		Show(sea);
 		Ship ship = GetShipInfo();
-		if (ship.position == "") continue;
-		if (CanPlaceShip(sea, ship) == " ") PlaceShip(sea, ship);
-		else cout << CanPlaceShip;
+		if (CanPlaceShip(sea, ship)) PlaceShip(sea, ship);
 	}
 }
