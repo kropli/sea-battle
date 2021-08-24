@@ -40,13 +40,10 @@ void BotTurn(char sea[10][10]) {
 	// пока что просто логику накидаю  на функции буду потом разбивать
 	string stop;
 	int x, y;
-	cout << "work" << endl;
 	if (UnfinishedShip) {
 		cout << "stop " << endl;
 		cout << "UnfinishedShip = " << UnfinishedShip << endl;
-		cin >> stop;
 		if (IsAnyShipPartHere(UnfinishedCordY, UnfinishedCordX, sea, PossiblePositions)) {
-			cout << "stop " << endl;
 			cout << "Possible Positions " << PossiblePositions[0][0] << " " << PossiblePositions[0][1] << "; " << endl;
 			cin >> stop;
 			if (UnfinishedCordY != PossiblePositions[0][0] && UnfinishedCordX != PossiblePositions[0][1]) {
@@ -56,9 +53,11 @@ void BotTurn(char sea[10][10]) {
 					if (random == 1 || random == 7) {
 						Answers[AnswerCount][0] = PossiblePositions[0][0];
 						Answers[AnswerCount][1] = PossiblePositions[0][1];
+						cout << "Ship hit ";
 						CellsForGettingDirection--;
+						sea[PossiblePositions[0][0]][PossiblePositions[0][1]] = DamagedShipCell;
 						AnswerCount++;    // убрать answercount  и вынести в конец
-						cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
+						cout << Answers[AnswerCount][0] + 1 << " = answer y  " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
 					}
 					else {
 						int RandomCellX = 0;
@@ -72,9 +71,8 @@ void BotTurn(char sea[10][10]) {
 
 						Answers[AnswerCount][0] = UnfinishedCordY + RandomCellY;
 						Answers[AnswerCount][1] = UnfinishedCordX + RandomCellX;
-						CellsForGettingDirection--;
 						AnswerCount++;
-						cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
+						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
 					}
 				}
 				else {
@@ -82,7 +80,9 @@ void BotTurn(char sea[10][10]) {
 					Answers[AnswerCount][1] = PossiblePositions[0][1];
 					CellsForGettingDirection--;
 					AnswerCount++;
-					cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
+					cout << "Ship hit ";
+					sea[PossiblePositions[0][0]][PossiblePositions[0][1]] = DamagedShipCell;					
+					cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << "answer x" << endl;
 				}
 
 			}
@@ -94,7 +94,9 @@ void BotTurn(char sea[10][10]) {
 						Answers[AnswerCount][1] = PossiblePositions[1][1];
 						CellsForGettingDirection--;
 						AnswerCount++;
-						cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
+						cout << "Ship hit ";
+						sea[PossiblePositions[1][0]][PossiblePositions[1][1]] = DamagedShipCell;
+						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
 					}
 					else {
 						int RandomCellX = 0;
@@ -108,17 +110,18 @@ void BotTurn(char sea[10][10]) {
 
 						Answers[AnswerCount][0] = UnfinishedCordY + RandomCellY;
 						Answers[AnswerCount][1] = UnfinishedCordX + RandomCellX;
-						CellsForGettingDirection--;
 						AnswerCount++;
-						cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
+						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
 					}
 				}
 				else {
-					Answers[AnswerCount][0] = PossiblePositions[0][0];
-					Answers[AnswerCount][1] = PossiblePositions[0][1];
+					Answers[AnswerCount][0] = PossiblePositions[1][0];
+					Answers[AnswerCount][1] = PossiblePositions[1][1];
 					CellsForGettingDirection--;
 					AnswerCount++;
-					cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
+					cout << "Ship hit ";
+					sea[PossiblePositions[1][0]][PossiblePositions[1][1]] = DamagedShipCell;
+					cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << "answer x" << endl;
 				}
 			}
 		}
@@ -126,11 +129,11 @@ void BotTurn(char sea[10][10]) {
 	}
 	else {
 		CellsForGettingDirection = 2;
-		x = rand() % 10;
-		y = rand() % 10;
+		x = rand() % 9;
+		y = rand() % 9;
 		cout << "Random cord(UNfinish = false)"<< endl;
 		if (sea[y][x] == ShipCell) {
-			cout << "ShipCell hit" << y << x << endl;
+			cout << "ShipCell hit" << "y = " << y + 1 << " x = " << x + 1 << endl;
 			UnfinishedShip = true;
 			UnfinishedCordY = y;
 			UnfinishedCordX = x;
@@ -138,12 +141,12 @@ void BotTurn(char sea[10][10]) {
 			Answers[AnswerCount][0] = y;
 			Answers[AnswerCount][1] = x;
 			CellsForGettingDirection--;
-			cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
+			cout << Answers[AnswerCount][0] + 1 << "= answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
 		}
 		else {
 			Answers[AnswerCount][0] = y;
 			Answers[AnswerCount][1] = x;
-			cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
+			cout << Answers[AnswerCount][0] + 1 << " " << Answers[AnswerCount][1] + 1 << endl;
 		}
 		AnswerCount++;
 	}
