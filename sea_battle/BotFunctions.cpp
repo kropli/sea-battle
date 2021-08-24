@@ -60,8 +60,10 @@ void BotTurn(char sea[10][10]) {
 				cout << "CellsForGettingDirection = " << CellsForGettingDirection << endl;
 				//  если не дошли до левого края корябля
 				if (CellsForGettingDirection > 0) {
+					cout << "CellsForGettingDirection > 0" << endl;
 					int random = rand() % 10;
 					if (random == 1 || random == 7) {
+						cout << "get random chance" << endl;
 						Answers[AnswerCount][0] = PossiblePositions[0][0];
 						Answers[AnswerCount][1] = PossiblePositions[0][1];
 						cout << "Ship hit ";
@@ -71,6 +73,7 @@ void BotTurn(char sea[10][10]) {
 						cout << Answers[AnswerCount][0] + 1 << " = answer y  " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
 					}
 					else {
+						cout << "dont get random chance" << endl;
 						int RandomCellX = 0;
 						int RandomCellY = 0;
 						do {
@@ -88,6 +91,7 @@ void BotTurn(char sea[10][10]) {
 					}
 				}
 				else {
+					cout << "CellsForGettingDirection = 0" << endl;
 					Answers[AnswerCount][0] = PossiblePositions[0][0];
 					Answers[AnswerCount][1] = PossiblePositions[0][1];
 					CellsForGettingDirection--;
@@ -102,8 +106,10 @@ void BotTurn(char sea[10][10]) {
 				cout << "going right(down)" << endl;
 				cout << "CellsForGettingDirection = " << CellsForGettingDirection << endl;
 				if (CellsForGettingDirection > 0) {
+					cout << "CellsForGettingDirection > 0" << endl;
 					int random = rand() % 10;
 					if (random == 1 || random == 7) {
+						cout << "get random chance" << endl;
 						Answers[AnswerCount][0] = PossiblePositions[1][0];
 						Answers[AnswerCount][1] = PossiblePositions[1][1];
 						CellsForGettingDirection--;
@@ -113,6 +119,7 @@ void BotTurn(char sea[10][10]) {
 						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
 					}
 					else {
+						cout << "dont get random chance" << endl;
 						int RandomCellX = 0;
 						int RandomCellY = 0;
 						do {
@@ -130,6 +137,7 @@ void BotTurn(char sea[10][10]) {
 					}
 				}
 				else {
+					cout << "CellsForGettingDirection = 0" << endl;
 					Answers[AnswerCount][0] = PossiblePositions[1][0];
 					Answers[AnswerCount][1] = PossiblePositions[1][1];
 					CellsForGettingDirection--;
