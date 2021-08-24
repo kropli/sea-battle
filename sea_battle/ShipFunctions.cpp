@@ -103,12 +103,13 @@ Ship GetShipInfo() {
 	if (shipsLeftToPlace[3] > 0) cout << "/3";
 	if (shipsLeftToPlace[4] > 0) cout << "/4";
 	cout << "):";
-	while (shipsLeftToPlace[shipLength] != 0) {
-		cin >> shipLength;
+	cin >> shipLength;
+	/*while (shipsLeftToPlace[shipLength] != 0) {	
 		if (shipsLeftToPlace[shipLength] == 0) {
 			cout << "cannot place ship of this length - max count of such ships already placed" << endl;
 		}
-	}
+		else cout << "-";
+	}*/
 	
 	ship.length = shipLength;
 	string full_cord;

@@ -13,7 +13,6 @@ int main() {
 	char sea[10][10];    // игровое поле
 	MapReset(sea);
 	ShipPlacement(sea);
-	int i = 0;
 	while (IsAnyShipAlive) {
 		BotTurn;
 		Show(sea);
