@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include "ShipFunctions.h"
+#include "BotFunctions.h"
 
 using namespace std;
 
@@ -12,6 +13,13 @@ int main() {
 	char sea[10][10];    // игровое поле
 	MapReset(sea);
 	ShipPlacement(sea);
+	int i = 0;
+	while (IsAnyShipAlive) {
+		BotTurn;
+		Show(sea);
+		cout << endl;
+	}
+	
 }
 
 //
