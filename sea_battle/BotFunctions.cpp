@@ -44,7 +44,8 @@ void BotTurn(char sea[10][10]) {
 		cout << "stop " << endl;
 		cout << "UnfinishedShip = " << UnfinishedShip << endl;
 		if (IsAnyShipPartHere(UnfinishedCordY, UnfinishedCordX, sea, PossiblePositions)) {
-			cout << "Possible Positions " << PossiblePositions[0][0] << " " << PossiblePositions[0][1] << "; " << endl;
+			cout << "Possible PositionsY1 " << PossiblePositions[0][0] + 1 << " Possible PositionsX1 " << PossiblePositions[0][1] + 1 << endl;
+			cout << "Possible PositionsY2 " << PossiblePositions[1][0] + 1 << " Possible PositionsX2 " << PossiblePositions[1][1] + 1 << endl;
 			cin >> stop;
 			if (UnfinishedCordY != PossiblePositions[0][0] && UnfinishedCordX != PossiblePositions[0][1]) {
 				//  если не дошли до левого края корябля
