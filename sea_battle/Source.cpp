@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <string>
+#include <random>
 #include <map>
 #include "ShipFunctions.h"
 #include "BotFunctions.h"
@@ -9,13 +10,27 @@
 using namespace std;
 
 int main() {
-	srand(time(0));
-	char sea[10][10];    // игровое поле
-	MapReset(sea);
-	ShipPlacement(sea);
+	char TestSea[10][10] = {
+	 {'1','0','0','1','1','0','0','0','1','0'},
+	 {'0','0','0','0','0','0','0','0','0','0'},
+	 {'0','1','1','1','1','0','1','0','0','0'},
+	 {'0','0','0','0','0','0','1','0','0','0'},
+	 {'0','0','0','0','0','0','0','0','0','0'},
+	 {'0','0','0','1','0','0','0','0','0','0'},
+	 {'0','1','0','1','0','0','0','1','1','0'},
+	 {'0','0','0','1','0','0','0','0','0','0'},
+	 {'0','1','0','0','0','0','0','0','0','0'},
+	 {'0','0','0','0','0','0','0','1','0','0'}
+	};
+	srand(time(NULL));
+	//char sea[10][10];    // игровое поле
+	//MapReset(sea);
+	//ShipPlacement(sea);
 	while (IsAnyShipAlive) {
+		string test;
+		cin >> test;
 		BotTurn;
-		Show(sea);
+		Show(TestSea);
 		cout << endl;
 	}
 	

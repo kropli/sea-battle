@@ -18,7 +18,7 @@ bool IsAnyShipAlive(char sea[10][10]) {
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
 			if (sea[i][j] == '1') return true;
-		} 
+		}
 	}
 	return false;
 }
@@ -30,16 +30,25 @@ bool IsAnyShipPartHere(int y, int x, char sea[10][10], int PossiblePositions[2][
 			if (sea[y + yi][x + xi] == ShipCell) {
 				count++;
 				PossiblePositions[count][0] = y + yi;
-				PossiblePositions[count][1] = x + xi;				
+				PossiblePositions[count][1] = x + xi;
 			}
 	if (count == 1) { SecondPart = true; }
 	if (count == -1) { return false; }
 	else return true;
 }
-void BotTurn(char sea[10][10]) {  // пока что просто логику накидаю  на функции буду потом разбивать
+void BotTurn(char sea[10][10]) {  
+	// пока что просто логику накидаю  на функции буду потом разбивать
+	string stop;
 	int x, y;
+	cout << "work" << endl;
 	if (UnfinishedShip) {
+		cout << "stop " << endl;
+		cout << "UnfinishedShip = " << UnfinishedShip << endl;
+		cin >> stop;
 		if (IsAnyShipPartHere(UnfinishedCordY, UnfinishedCordX, sea, PossiblePositions)) {
+			cout << "stop " << endl;
+			cout << "Possible Positions " << PossiblePositions[0][0] << " " << PossiblePositions[0][1] << "; " << endl;
+			cin >> stop;
 			if (UnfinishedCordY != PossiblePositions[0][0] && UnfinishedCordX != PossiblePositions[0][1]) {
 				//  если не дошли до левого края корябля
 				if (CellsForGettingDirection > 0) {
@@ -119,21 +128,23 @@ void BotTurn(char sea[10][10]) {  // пока что просто логику �
 		CellsForGettingDirection = 2;
 		x = rand() % 10;
 		y = rand() % 10;
+		cout << "Random cord(UNfinish = false) x = " << x << "y = " << y << endl;
 		if (sea[y][x] == ShipCell) {
+			cout << "ShipCell hit" << y << x << endl;
 			UnfinishedShip = true;
 			UnfinishedCordY = y;
 			UnfinishedCordX = x;
 			sea[y][x] = DamagedShipCell;
-			Answers[AnswerCount][0] = y; 
+			Answers[AnswerCount][0] = y;
 			Answers[AnswerCount][1] = x;
 			CellsForGettingDirection--;
 			cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
 		}
-		else { 
-			Answers[AnswerCount][0] = y; 
-			Answers[AnswerCount][1] = x; 
+		else {
+			Answers[AnswerCount][0] = y;
+			Answers[AnswerCount][1] = x;
 			cout << Answers[AnswerCount][0] << " " << Answers[AnswerCount][1] << endl;
 		}
-	AnswerCount++;
+		AnswerCount++;
 	}
 }
