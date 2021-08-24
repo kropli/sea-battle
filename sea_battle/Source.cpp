@@ -29,7 +29,7 @@ int main() {
 	while (IsAnyShipAlive) {
 		string test;
 		cin >> test;
-		BotTurn;
+		BotTurn(TestSea);
 		Show(TestSea);
 		cout << endl;
 	}

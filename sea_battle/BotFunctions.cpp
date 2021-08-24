@@ -128,7 +128,7 @@ void BotTurn(char sea[10][10]) {
 		CellsForGettingDirection = 2;
 		x = rand() % 10;
 		y = rand() % 10;
-		cout << "Random cord(UNfinish = false) x = " << x << "y = " << y << endl;
+		cout << "Random cord(UNfinish = false)"<< endl;
 		if (sea[y][x] == ShipCell) {
 			cout << "ShipCell hit" << y << x << endl;
 			UnfinishedShip = true;
