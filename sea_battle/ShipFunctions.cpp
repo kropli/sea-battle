@@ -113,9 +113,15 @@ Ship GetShipInfo() {
 	
 	ship.length = shipLength;
 	string full_cord;
-	cout << "enter left corner cordinats, for example 9A: "; cin >> full_cord;
-	ship.x = ConvertNumToNum(full_cord[0]);
-	ship.y = ConvertLetToNum(full_cord[1]);
+	bool CorrectCordinats = false;
+	do {
+		cout << "enter left corner cordinats, for example 9A: "; cin >> full_cord;
+		ship.x = ConvertNumToNum(full_cord[0]);
+		ship.y = ConvertLetToNum(full_cord[1]);
+		int CordNum = full_cord[0],CordLetter = full_cord[1];
+		if (CordNum > 48 && CordNum < 58 && CordLetter > 64 && CordLetter < 91) CorrectCordinats = true;
+	} while (!CorrectCordinats);
+	
 	ship.position = "horizontal";
 	if (shipLength != 1) {
 		cout << "position: ";
