@@ -78,7 +78,7 @@ bool CanPlaceShip(char sea[10][10], Ship ship) {
 			canPlace = CanShipPartBePlacedHere(ship.y + i, ship.x - 1, sea);
 
 		if (!canPlace) {
-			cout << "you can't place ship here";
+			cout << "you can't place ship here" << endl;
 			return false;
 		}
 	}

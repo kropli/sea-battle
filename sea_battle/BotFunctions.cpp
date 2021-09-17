@@ -100,8 +100,8 @@ void BotTurn(char sea[10][10]) {
 						int RandomCellX = 0;
 						int RandomCellY = 0;
 						do {
-							int RandomCellX = rand() % 2 - 1;
-							int RandomCellY = rand() % 2 - 1;
+							int RandomCellX = rand() % 3 - 1;
+							int RandomCellY = rand() % 3 - 1;
 						} while (RandomCellX + UnfinishedCordX != PossiblePositions[0][1] &&
 							RandomCellY + UnfinishedCordY != PossiblePositions[0][0]);
 						//  добавить логику с проверкой второй возможной кординатой если она есть
@@ -149,8 +149,8 @@ void BotTurn(char sea[10][10]) {
 						int RandomCellX = 0;
 						int RandomCellY = 0;
 						do {
-							int RandomCellX = rand() % 2 - 1;
-							int RandomCellY = rand() % 2 - 1;
+							int RandomCellX = rand() % 3 - 1;
+							int RandomCellY = rand() % 3 - 1;
 						} while (RandomCellX + UnfinishedCordX != PossiblePositions[1][1] &&
 							RandomCellY + UnfinishedCordY != PossiblePositions[1][0]);
 						// добавить логику с проверкой второй возможной кординатой если она есть
@@ -181,8 +181,8 @@ void BotTurn(char sea[10][10]) {
 	}
 	else {
 		CellsForGettingDirection = 2;
-		x = rand() % 9;
-		y = rand() % 9;
+		x = rand() % 10;
+		y = rand() % 10;
 		cout << "Random cord(UNfinish = false)" << endl;
 
 		if (sea[y][x] == ShipCell) {
