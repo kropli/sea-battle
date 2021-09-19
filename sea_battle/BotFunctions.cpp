@@ -67,8 +67,8 @@ void BotTurn(char sea[10][10]) {
 	int x, y;
 	if (UnfinishedShip) {
 		
-		//cout << "stop " << endl;
-		//cin >> a;
+		cout << "stop " << endl;
+		cin >> a;
 		cout << "UnfinishedShip = " << UnfinishedShip << endl;
 		if (IsAnyShipPartHere(UnfinishedCordY, UnfinishedCordX, sea, PossiblePositions)) {
 			cout << "Possible PositionsY1 " << PossiblePositions[0][0] + 1 << " Possible PositionsX1 " << PossiblePositions[0][1] + 1 << endl;
@@ -76,12 +76,12 @@ void BotTurn(char sea[10][10]) {
 			cout << "UnfinishedCordY = " << UnfinishedCordY + 1 << " UnfinishedCordX = " << UnfinishedCordX + 1 << endl;
 			cout << "second part = " << SecondPart << endl;
 			if (UnfinishedCordY != PossiblePositions[0][0] || UnfinishedCordX != PossiblePositions[0][1]) {
-				cout << "not left(top) end" << endl;
+				cout << "left(top) end" << endl;
 				cout << "CellsForGettingDirection = " << CellsForGettingDirection << endl;
 				if (CellsForGettingDirection > 0) {
 					cout << "CellsForGettingDirection > 0" << endl;
 					int random = rand() % 10;
-					if (random == 1 || random == 7) {
+					if (random > 5) {
 						cout << "get random chance" << endl;
 						Answers[AnswerCount][0] = PossiblePositions[0][0];
 						Answers[AnswerCount][1] = PossiblePositions[0][1];
@@ -97,10 +97,13 @@ void BotTurn(char sea[10][10]) {
 						int RandomCellX = 0;
 						int RandomCellY = 0;
 						do {
-							int RandomCellX = rand() % 3 - 1;
-							int RandomCellY = rand() % 3 - 1;
+							retry_1:
+								RandomCellX = rand() % 3 - 1;
+								RandomCellY = rand() % 3 - 1;
+								if (RandomCellX == 0 && RandomCellY == 0) goto retry_1;
 						} while (RandomCellX + UnfinishedCordX != PossiblePositions[0][1] &&
 							RandomCellY + UnfinishedCordY != PossiblePositions[0][0]);
+						
 						//  добавить логику с проверкой второй возможной кординатой если она есть
 
 						Answers[AnswerCount][0] = UnfinishedCordY + RandomCellY;
@@ -130,7 +133,7 @@ void BotTurn(char sea[10][10]) {
 				if (CellsForGettingDirection > 0) {
 					cout << "CellsForGettingDirection > 0" << endl;
 					int random = rand() % 10;
-					if (random == 1 || random == 7) {
+					if (random > 5) {
 						cout << "get random chance" << endl;
 						Answers[AnswerCount][0] = PossiblePositions[1][0];
 						Answers[AnswerCount][1] = PossiblePositions[1][1];
@@ -146,10 +149,14 @@ void BotTurn(char sea[10][10]) {
 						int RandomCellX = 0;
 						int RandomCellY = 0;
 						do {
-							int RandomCellX = rand() % 2 - 1;
-							int RandomCellY = rand() % 2 - 1;
+							retry_2:
+								RandomCellX = rand() % 2 - 1;
+								RandomCellY = rand() % 2 - 1;
+								if (RandomCellX == 0 && RandomCellY == 0) goto retry_2;
+
 						} while (RandomCellX + UnfinishedCordX != PossiblePositions[1][1] &&
-							RandomCellY + UnfinishedCordY != PossiblePositions[1][0]);
+							RandomCellY + UnfinishedCordY != PossiblePositions[1][0] );
+						
 						// добавить логику с проверкой второй возможной кординатой если она есть
 
 						Answers[AnswerCount][0] = UnfinishedCordY + RandomCellY;
