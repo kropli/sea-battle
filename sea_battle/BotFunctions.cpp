@@ -7,7 +7,7 @@ using namespace std;
 bool UnfinishedShip = false;   // переменная для незаконченного корабля(если бот попадет не в одинарный и надо будет продолжить добивать этот корабль)
 bool SecondPart = false;
 const char ShipCell = '1';
-const char EmptyCell = '0';
+const char EmptyCell = ' ';
 const char DamagedShipCell = '2';
 int UnfinishedCordY;
 int UnfinishedCordX;

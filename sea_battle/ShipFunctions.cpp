@@ -4,7 +4,7 @@
 using namespace std;
 
 const char ShipCell = '1';
-const char EmptyCell = '0';
+const char EmptyCell = ' ';
 
 map<int, int> shipsLeftToPlace;
 struct Ship {
