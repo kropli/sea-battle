@@ -12,26 +12,21 @@ const char DamagedShipCell = '2';
 int UnfinishedCordY;
 int UnfinishedCordX;
 int Answers[100][2];    //массив для записей ходов 
-vector<vector<int> > UsedCord;
+int UsedCord[100][2];
+
 
 int AnswerCount = 0;
 int PossiblePositions[2][2];
 int CellsForGettingDirection = 2;
 
-void ReserveMass(vector<vector<int>> mass) {
-	mass.reserve(1);
-	for (int i = 0; i < mass.size(); i++) {
-		mass[i].reserve(2);
-	}
-}
-bool CordInMass(int x, int y) {
+bool CordInMass(int y, int x) {
 	for (auto i : UsedCord) {      // доделать функцию проверки кординат в массиве
-		if (i[0] == x && i[1] == y){
-			return true;
-			cout << "cord" << x << " " << y << "are used" << endl;
+		if (i[0] == y && i[1] == x){
+			return false;
+			cout << "cord" << y << " " << x << "are used" << endl;
 		}
 	}
-	return false;
+	return true;
 }
 
 bool IsAnyShipAlive(char sea[10][10]) {
@@ -66,12 +61,14 @@ bool IsAnyShipPartHere(int y, int x, char sea[10][10], int PossiblePositions[2][
 }
 
 void BotTurn(char sea[10][10]) {
-	
+	if (AnswerCount == 0) { UsedCord[0][0] = 15; UsedCord[0][1] = 15; }
 	srand(time(NULL));
-	string stop;
+	string a;
 	int x, y;
 	if (UnfinishedShip) {
-		cout << "stop " << endl;
+		
+		//cout << "stop " << endl;
+		//cin >> a;
 		cout << "UnfinishedShip = " << UnfinishedShip << endl;
 		if (IsAnyShipPartHere(UnfinishedCordY, UnfinishedCordX, sea, PossiblePositions)) {
 			cout << "Possible PositionsY1 " << PossiblePositions[0][0] + 1 << " Possible PositionsX1 " << PossiblePositions[0][1] + 1 << endl;
@@ -92,8 +89,8 @@ void BotTurn(char sea[10][10]) {
 						CellsForGettingDirection--;
 						sea[PossiblePositions[0][0]][PossiblePositions[0][1]] = DamagedShipCell;
 						cout << Answers[AnswerCount][0] + 1 << " = answer y  " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-						//UsedCord[UsedCord.size()][0] = Answers[AnswerCount][0];
-						//UsedCord[UsedCord.size()][1] = Answers[AnswerCount][1];
+						UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+						UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
 					}
 					else {
 						cout << "dont get random chance" << endl;
@@ -110,8 +107,8 @@ void BotTurn(char sea[10][10]) {
 						Answers[AnswerCount][1] = UnfinishedCordX + RandomCellX;
 						cout << "random shot" << endl;
 						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-						//UsedCord[UsedCord.size() + 1][0] = Answers[AnswerCount][0];
-						//UsedCord[UsedCord.size() + 1][1] = Answers[AnswerCount][1];
+						UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+						UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
 					}
 				}
 				else {
@@ -122,8 +119,8 @@ void BotTurn(char sea[10][10]) {
 					cout << "Ship hit ";
 					sea[PossiblePositions[0][0]][PossiblePositions[0][1]] = DamagedShipCell;
 					cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << "answer x" << endl;
-					//UsedCord[UsedCord.size() + 1][0] = Answers[AnswerCount][0];
-					//UsedCord[UsedCord.size() + 1][1] = Answers[AnswerCount][1];
+					UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+					UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
 				}
 
 			}
@@ -141,16 +138,16 @@ void BotTurn(char sea[10][10]) {
 						cout << "Ship hit ";
 						sea[PossiblePositions[1][0]][PossiblePositions[1][1]] = DamagedShipCell;
 						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-						//UsedCord[UsedCord.size() + 1][0] = Answers[AnswerCount][0];
-						//UsedCord[UsedCord.size() + 1][1] = Answers[AnswerCount][1];
+						UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+						UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
 					}
 					else {
 						cout << "dont get random chance" << endl;
 						int RandomCellX = 0;
 						int RandomCellY = 0;
 						do {
-							int RandomCellX = rand() % 3 - 1;
-							int RandomCellY = rand() % 3 - 1;
+							int RandomCellX = rand() % 2 - 1;
+							int RandomCellY = rand() % 2 - 1;
 						} while (RandomCellX + UnfinishedCordX != PossiblePositions[1][1] &&
 							RandomCellY + UnfinishedCordY != PossiblePositions[1][0]);
 						// добавить логику с проверкой второй возможной кординатой если она есть
@@ -159,8 +156,8 @@ void BotTurn(char sea[10][10]) {
 						Answers[AnswerCount][1] = UnfinishedCordX + RandomCellX;
 						cout << "random shoot" << endl;
 						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-						//UsedCord[UsedCord.size() + 1][0] = Answers[AnswerCount][0];
-						//UsedCord[UsedCord.size() + 1][1] = Answers[AnswerCount][1];
+						UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+						UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
 					}
 				}
 				else {
@@ -171,8 +168,8 @@ void BotTurn(char sea[10][10]) {
 					cout << "Ship hit ";
 					sea[PossiblePositions[1][0]][PossiblePositions[1][1]] = DamagedShipCell;
 					cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << "answer x" << endl;
-					//UsedCord[UsedCord.size() + 1][0] = Answers[AnswerCount][0];
-					//UsedCord[UsedCord.size() + 1][1] = Answers[AnswerCount][1];
+					UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+					UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
 
 				}
 			}
@@ -181,8 +178,11 @@ void BotTurn(char sea[10][10]) {
 	}
 	else {
 		CellsForGettingDirection = 2;
-		x = rand() % 10;
-		y = rand() % 10;
+		do {
+			x = rand() % 10;
+			y = rand() % 10;
+		} while (!CordInMass(y,x));
+		
 		cout << "Random cord(UNfinish = false)" << endl;
 
 		if (sea[y][x] == ShipCell) {
@@ -195,16 +195,16 @@ void BotTurn(char sea[10][10]) {
 			Answers[AnswerCount][1] = x;
 			CellsForGettingDirection--;
 			cout << Answers[AnswerCount][0] + 1 << "= answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-			//UsedCord[UsedCord.size() + 1][0] = Answers[AnswerCount][0];
-			//UsedCord[UsedCord.size() + 1][1] = Answers[AnswerCount][1];
+			UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+			UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
 
 		}
 		else {
 			Answers[AnswerCount][0] = y;
 			Answers[AnswerCount][1] = x;
 			cout << Answers[AnswerCount][0] + 1 << " " << Answers[AnswerCount][1] + 1 << endl;
-			//UsedCord[UsedCord.size() + 1][0] = Answers[AnswerCount][0];
-			//UsedCord[UsedCord.size() + 1][1] = Answers[AnswerCount][1];
+			UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+			UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
 		}
 
 	}
