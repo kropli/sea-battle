@@ -95,42 +95,33 @@ void BotTurn(char sea[10][10]) {
 	// основная функци яхода бота
 	if (AnswerCount == 0) { UsedCord[0][0] = 15; UsedCord[0][1] = 15; }
 	srand(time(NULL));
-	string a;
 	int x, y;
 	if (UnfinishedShip) {
 		// если корабль был подюит в прошлом ходу
-		//cout << "stop " << endl;
-		//cin >> a;
-		/*cout << "UnfinishedShip = " << UnfinishedShip << endl;*/
 		cout << UnfinishedCordY + 1<< " " << UnfinishedCordX+ 1 << endl;
 
 		if (IsAnyShipPartHere(UnfinishedCordY, UnfinishedCordX, sea, PossiblePositions)) {
 			// если соседней клеткой является клетка корабля
-			/*cout << "Possible PositionsY1 = " << PossiblePositions[0][0] + 1 << " Possible PositionsX1 = " << PossiblePositions[0][1] + 1 << endl;
-			cout << "Possible PositionsY2 = " << PossiblePositions[1][0] + 1 << " Possible PositionsX2 = " << PossiblePositions[1][1] + 1 << endl;
-			cout << "UnfinishedCordY = " << UnfinishedCordY + 1 << " UnfinishedCordX = " << UnfinishedCordX + 1 << endl;
-			cout << "second part = " << SecondPart << endl;*/
 			int random = rand() % 10;
 			if (UnfinishedCordY != PossiblePositions[0][0] || UnfinishedCordX != PossiblePositions[0][1]) {
 				// если эта клетка не была крайней левой
-				/*cout << "left(top) end" << endl;*/
+				cout << "left(top) end" << endl;
 
-				if (random > 5) { HitShip(sea,1); }
-				else{ TryingToHitShipRandom(sea); }				
+				if (random > 5) { HitShip(sea, 1); }
+				else { TryingToHitShipRandom(sea); }
 			}
-			
+			else if (SecondPart == true) {
+				// если бот дошел до крайней левой и есть возможность пойти в парво
+				int random = rand() % 10;
+				UnfinishedCordY = PossiblePositions[1][0];
+				UnfinishedCordX = PossiblePositions[1][1];
+
+				cout << "going right(down)" << endl;
+				if (random > 5) { HitShip(sea, 2); }
+				else { TryingToHitShipRandom(sea); }
+			}
 		}
-		else if (SecondPart == true) {
-			// если бот дошел до крайней левой и есть возможность пойти в парво
-			int random = rand() % 10;
-			UnfinishedCordY = PossiblePositions[1][0];
-			UnfinishedCordX = PossiblePositions[1][1];
-			
-			/*cout << "going right(down)" << endl;*/
-			if (random > 5) { HitShip(sea, 2); }
-			else { TryingToHitShipRandom(sea); }
-		}
-		/*else { cout << "unfished shio = false" << endl; UnfinishedShip = false; }*/
+		else {UnfinishedShip = false; }
 	}
 	else {
 		//если в прошлом ходу небыл подбит корабль
@@ -139,11 +130,8 @@ void BotTurn(char sea[10][10]) {
 			y = rand() % 10;
 		} while (!CordInMass(y, x));
 
-		/*cout << "Random cord(UNfinish = false)" << endl;*/
-
 		if (sea[y][x] == ShipCell) {
 			// если бот рандомно попал по кораблю
-			/*cout << "ShipCell hit" << " y = " << y + 1 << " x = " << x + 1 << endl;*/
 			UnfinishedShip = true;
 			UnfinishedCordY = y;
 			UnfinishedCordX = x;

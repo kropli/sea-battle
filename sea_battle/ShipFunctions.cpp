@@ -124,7 +124,7 @@ Ship GetShipInfo() {
 	
 	ship.position = "horizontal";
 	if (shipLength != 1) {
-		cout << "position: ";
+		cout << "position(horizontal/vertical): ";
 		cin >> ship.position;
 	}
 	return ship;

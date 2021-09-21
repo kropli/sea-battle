@@ -23,19 +23,23 @@ char TestSea[10][10] = {
 };
 
 int main() {
-	//Show(TestSea);
+	Show(TestSea);
 	cout << endl << endl;
 	srand(time(NULL));
 	char Sea[10][10];    // игровое поле
 	MapReset(Sea);
 	ShipPlacement(Sea);
-	while (IsAnyShipAlive(TestSea)) {
-		
-		//string test;
-		//cin >> test;
-		BotTurn(TestSea);
-		Show(TestSea);
+	while (IsAnyShipAlive(Sea)) {
+		string test;
+		BotTurn(Sea);
+		Show(Sea);
 		cout << endl;
+		cout << "enter some letter and enter to continue:";
+		cin >> test;
+	}
+	cout << "Bot defeat you at" << AnswerCount << "moves";
+	for (int i = 0; i < AnswerCount; i++) {
+		cout << Answers[i][0] + 1 << " " << Answers[i][1] + 1 << endl;
 	}
 	
 }
