@@ -5,31 +5,31 @@
 #include<time.h>
 using namespace std;
 bool UnfinishedShip = false;   // переменная для незаконченного корабля(если бот попадет не в одинарный и надо будет продолжить добивать этот корабль)
-bool SecondPart = false;
-const char ShipCell = '1';
-const char EmptyCell = '0';
-const char DamagedShipCell = '2';
-int UnfinishedCordY;
-int UnfinishedCordX;
+bool SecondPart = false;  //  переменная для обозначения можно ли пойти в две стороны чтобы его убить
+const char ShipCell = '1';  // константа для клетки корабля
+const char EmptyCell = '0';  //  константа для пустой клетки
+const char DamagedShipCell = '2'; // константа для подбитой клетки корабля
+int UnfinishedCordY;  // кордината для клетки корабля в которую попали в прошлый ход
+int UnfinishedCordX;  //  кордината для клетки корабля в которую попали в прошлый ход
 int Answers[100][2];    //массив для записей ходов 
-int UsedCord[100][2];
+int UsedCord[100][2]; // массив для уже использованых кординат
 
+int AnswerCount = 0; // счет хода для аписи в массив
+int PossiblePositions[2][2]; // массив для записи возможных кординат продолжения корабля 
 
-int AnswerCount = 0;
-int PossiblePositions[2][2];
-int CellsForGettingDirection = 2;
-
-bool CordInMass(int y, int x) {
-	for (auto i : UsedCord) {      // доделать функцию проверки кординат в массиве
-		if (i[0] == y && i[1] == x){
+bool CordInMass(int y, int x) {   
+	// функция для проверки есть ли кордината в массиве
+	for (auto i : UsedCord) {      
+		if (i[0] == y && i[1] == x) {
 			return false;
-			cout << "cord" << y << " " << x << "are used" << endl;
+			/*cout << "cord" << y << " " << x << "are used" << endl;*/
 		}
 	}
 	return true;
 }
 
-bool IsAnyShipAlive(char sea[10][10]) {
+bool IsAnyShipAlive(char sea[10][10]) {  
+	// функция для проверки есть ли еще живые корабли на поле
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
 			if (sea[i][j] == '1') return true;
@@ -38,7 +38,8 @@ bool IsAnyShipAlive(char sea[10][10]) {
 	return false;
 }
 
-bool IsAnyShipPartHere(int y, int x, char sea[10][10], int PossiblePositions[2][2]) {
+bool IsAnyShipPartHere(int y, int x, char sea[10][10], int PossiblePositions[2][2]) { 
+	// функция для проверки есть ли возле уже подбитой клетки еще одна клетка корабля
 	int GetShipPart = 0;
 	SecondPart = false;
 	for (int yi = -1; yi <= 1; yi++)
@@ -59,159 +60,98 @@ bool IsAnyShipPartHere(int y, int x, char sea[10][10], int PossiblePositions[2][
 
 	return GetShipPart;
 }
+void WriteAnswer(int y,int x, int RandomY = 0, int RandomX = 0) { 
+	// функция для записи ходов
+	Answers[AnswerCount][0] = y + RandomY;
+	Answers[AnswerCount][1] = x + RandomX;
+	cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
+	UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
+	UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
+}
+void TryingToHitShipRandom(char sea[10][10]) {
+	// функция для возможного попадания по кораблю
+		/*cout << "dont get random chance" << endl;*/
+		int RandomCellX = 0;
+		int RandomCellY = 0;
+		do {
+			retry:
+			RandomCellX = rand() % 3 - 1;
+			RandomCellY = rand() % 3 - 1;
+			if (RandomCellX == 0 && RandomCellY == 0) goto retry;
+		} while (RandomCellX + UnfinishedCordX != PossiblePositions[0][1] &&
+			RandomCellY + UnfinishedCordY != PossiblePositions[0][0]);
+		WriteAnswer(UnfinishedCordY, UnfinishedCordX, RandomCellY, RandomCellX);
+}
+void HitShip(char sea[10][10], int ShipPart) {
+	// функция с гарантированым попаданием по кораблю
+	/*cout << "get random chance" << endl;*/
+	sea[PossiblePositions[0][0]][PossiblePositions[0][1]] = DamagedShipCell;
+	if (ShipPart == 1 ) WriteAnswer(PossiblePositions[0][0], PossiblePositions[0][1]);
+	else if (ShipPart == 2)  WriteAnswer(PossiblePositions[1][0], PossiblePositions[1][1]);
+}
+
 
 void BotTurn(char sea[10][10]) {
+	// основная функци яхода бота
 	if (AnswerCount == 0) { UsedCord[0][0] = 15; UsedCord[0][1] = 15; }
 	srand(time(NULL));
 	string a;
 	int x, y;
 	if (UnfinishedShip) {
-		
-		cout << "stop " << endl;
-		cin >> a;
-		cout << "UnfinishedShip = " << UnfinishedShip << endl;
+		// если корабль был подюит в прошлом ходу
+		//cout << "stop " << endl;
+		//cin >> a;
+		/*cout << "UnfinishedShip = " << UnfinishedShip << endl;*/
+		cout << UnfinishedCordY + 1<< " " << UnfinishedCordX+ 1 << endl;
+
 		if (IsAnyShipPartHere(UnfinishedCordY, UnfinishedCordX, sea, PossiblePositions)) {
-			cout << "Possible PositionsY1 " << PossiblePositions[0][0] + 1 << " Possible PositionsX1 " << PossiblePositions[0][1] + 1 << endl;
-			cout << "Possible PositionsY2 " << PossiblePositions[1][0] + 1 << " Possible PositionsX2 " << PossiblePositions[1][1] + 1 << endl;
+			// если соседней клеткой является клетка корабля
+			/*cout << "Possible PositionsY1 = " << PossiblePositions[0][0] + 1 << " Possible PositionsX1 = " << PossiblePositions[0][1] + 1 << endl;
+			cout << "Possible PositionsY2 = " << PossiblePositions[1][0] + 1 << " Possible PositionsX2 = " << PossiblePositions[1][1] + 1 << endl;
 			cout << "UnfinishedCordY = " << UnfinishedCordY + 1 << " UnfinishedCordX = " << UnfinishedCordX + 1 << endl;
-			cout << "second part = " << SecondPart << endl;
+			cout << "second part = " << SecondPart << endl;*/
+			int random = rand() % 10;
 			if (UnfinishedCordY != PossiblePositions[0][0] || UnfinishedCordX != PossiblePositions[0][1]) {
-				cout << "left(top) end" << endl;
-				cout << "CellsForGettingDirection = " << CellsForGettingDirection << endl;
-				if (CellsForGettingDirection > 0) {
-					cout << "CellsForGettingDirection > 0" << endl;
-					int random = rand() % 10;
-					if (random > 5) {
-						cout << "get random chance" << endl;
-						Answers[AnswerCount][0] = PossiblePositions[0][0];
-						Answers[AnswerCount][1] = PossiblePositions[0][1];
-						cout << "Ship hit ";
-						CellsForGettingDirection--;
-						sea[PossiblePositions[0][0]][PossiblePositions[0][1]] = DamagedShipCell;
-						cout << Answers[AnswerCount][0] + 1 << " = answer y  " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-						UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
-						UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
-					}
-					else {
-						cout << "dont get random chance" << endl;
-						int RandomCellX = 0;
-						int RandomCellY = 0;
-						do {
-							retry_1:
-								RandomCellX = rand() % 3 - 1;
-								RandomCellY = rand() % 3 - 1;
-								if (RandomCellX == 0 && RandomCellY == 0) goto retry_1;
-						} while (RandomCellX + UnfinishedCordX != PossiblePositions[0][1] &&
-							RandomCellY + UnfinishedCordY != PossiblePositions[0][0]);
-						
-						//  добавить логику с проверкой второй возможной кординатой если она есть
+				// если эта клетка не была крайней левой
+				/*cout << "left(top) end" << endl;*/
 
-						Answers[AnswerCount][0] = UnfinishedCordY + RandomCellY;
-						Answers[AnswerCount][1] = UnfinishedCordX + RandomCellX;
-						cout << "random shot" << endl;
-						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-						UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
-						UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
-					}
-				}
-				else {
-					cout << "CellsForGettingDirection = 0" << endl;
-					Answers[AnswerCount][0] = PossiblePositions[0][0];
-					Answers[AnswerCount][1] = PossiblePositions[0][1];
-					CellsForGettingDirection--;
-					cout << "Ship hit ";
-					sea[PossiblePositions[0][0]][PossiblePositions[0][1]] = DamagedShipCell;
-					cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << "answer x" << endl;
-					UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
-					UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
-				}
-
+				if (random > 5) { HitShip(sea,1); }
+				else{ TryingToHitShipRandom(sea); }				
 			}
-			else if (SecondPart == true) {
-				cout << "going right(down)" << endl;
-				cout << "CellsForGettingDirection = " << CellsForGettingDirection << endl;
-				if (CellsForGettingDirection > 0) {
-					cout << "CellsForGettingDirection > 0" << endl;
-					int random = rand() % 10;
-					if (random > 5) {
-						cout << "get random chance" << endl;
-						Answers[AnswerCount][0] = PossiblePositions[1][0];
-						Answers[AnswerCount][1] = PossiblePositions[1][1];
-						CellsForGettingDirection--;
-						cout << "Ship hit ";
-						sea[PossiblePositions[1][0]][PossiblePositions[1][1]] = DamagedShipCell;
-						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-						UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
-						UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
-					}
-					else {
-						cout << "dont get random chance" << endl;
-						int RandomCellX = 0;
-						int RandomCellY = 0;
-						do {
-							retry_2:
-								RandomCellX = rand() % 2 - 1;
-								RandomCellY = rand() % 2 - 1;
-								if (RandomCellX == 0 && RandomCellY == 0) goto retry_2;
-
-						} while (RandomCellX + UnfinishedCordX != PossiblePositions[1][1] &&
-							RandomCellY + UnfinishedCordY != PossiblePositions[1][0] );
-						
-						// добавить логику с проверкой второй возможной кординатой если она есть
-
-						Answers[AnswerCount][0] = UnfinishedCordY + RandomCellY;
-						Answers[AnswerCount][1] = UnfinishedCordX + RandomCellX;
-						cout << "random shoot" << endl;
-						cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-						UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
-						UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
-					}
-				}
-				else {
-					cout << "CellsForGettingDirection = 0" << endl;
-					Answers[AnswerCount][0] = PossiblePositions[1][0];
-					Answers[AnswerCount][1] = PossiblePositions[1][1];
-					CellsForGettingDirection--;
-					cout << "Ship hit ";
-					sea[PossiblePositions[1][0]][PossiblePositions[1][1]] = DamagedShipCell;
-					cout << Answers[AnswerCount][0] + 1 << " = answer y " << Answers[AnswerCount][1] + 1 << "answer x" << endl;
-					UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
-					UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
-
-				}
-			}
+			
 		}
-		else { UnfinishedShip = false; }
+		else if (SecondPart == true) {
+			// если бот дошел до крайней левой и есть возможность пойти в парво
+			int random = rand() % 10;
+			UnfinishedCordY = PossiblePositions[1][0];
+			UnfinishedCordX = PossiblePositions[1][1];
+			
+			/*cout << "going right(down)" << endl;*/
+			if (random > 5) { HitShip(sea, 2); }
+			else { TryingToHitShipRandom(sea); }
+		}
+		/*else { cout << "unfished shio = false" << endl; UnfinishedShip = false; }*/
 	}
 	else {
-		CellsForGettingDirection = 2;
+		//если в прошлом ходу небыл подбит корабль
 		do {
 			x = rand() % 10;
 			y = rand() % 10;
-		} while (!CordInMass(y,x));
-		
-		cout << "Random cord(UNfinish = false)" << endl;
+		} while (!CordInMass(y, x));
+
+		/*cout << "Random cord(UNfinish = false)" << endl;*/
 
 		if (sea[y][x] == ShipCell) {
-			cout << "ShipCell hit" << " y = " << y + 1 << " x = " << x + 1 << endl;
+			// если бот рандомно попал по кораблю
+			/*cout << "ShipCell hit" << " y = " << y + 1 << " x = " << x + 1 << endl;*/
 			UnfinishedShip = true;
 			UnfinishedCordY = y;
 			UnfinishedCordX = x;
 			sea[y][x] = DamagedShipCell;
-			Answers[AnswerCount][0] = y;
-			Answers[AnswerCount][1] = x;
-			CellsForGettingDirection--;
-			cout << Answers[AnswerCount][0] + 1 << "= answer y " << Answers[AnswerCount][1] + 1 << " = answer x" << endl;
-			UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
-			UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
-
+			WriteAnswer(y, x);
 		}
 		else {
-			Answers[AnswerCount][0] = y;
-			Answers[AnswerCount][1] = x;
-			cout << Answers[AnswerCount][0] + 1 << " " << Answers[AnswerCount][1] + 1 << endl;
-			UsedCord[AnswerCount + 1][0] = Answers[AnswerCount][0];
-			UsedCord[AnswerCount + 1][1] = Answers[AnswerCount][1];
+			WriteAnswer(y, x);
 		}
 
 	}

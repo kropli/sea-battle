@@ -24,11 +24,11 @@ char TestSea[10][10] = {
 
 int main() {
 	//Show(TestSea);
-	//cout << endl << endl;
+	cout << endl << endl;
 	srand(time(NULL));
-	//char Sea[10][10];    // игровое поле
-	//MapReset(Sea);
-	//ShipPlacement(Sea);
+	char Sea[10][10];    // игровое поле
+	MapReset(Sea);
+	ShipPlacement(Sea);
 	while (IsAnyShipAlive(TestSea)) {
 		
 		//string test;

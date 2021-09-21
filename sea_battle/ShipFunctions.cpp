@@ -43,6 +43,7 @@ int ConvertNumToNum(char num) {    //  счет горизонтального �
 }
 
 void MapReset(char sea[10][10]) {
+	// обнуления поля
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 10; j++) {
 			sea[i][j] = EmptyCell;
@@ -50,6 +51,7 @@ void MapReset(char sea[10][10]) {
 	}
 }
 void Show(char sea[10][10]) {
+	//показ поля
 	char letter;
 	cout << "  1 2 3 4 5 6 7 8 9 10" << endl;
 	for (int i = 0; i < 10; i++) {
@@ -63,6 +65,7 @@ void Show(char sea[10][10]) {
 }
 
 bool CanShipPartBePlacedHere(int y, int x, char sea[10][10]) {
+	// проверка возможности размещения клетки корабля на поле
 	for (int yi = -1; yi <= 1; yi++)
 		for (int xi = -1; xi <= 1; xi++)
 			if (sea[y + yi][x + xi] == ShipCell)
@@ -70,6 +73,7 @@ bool CanShipPartBePlacedHere(int y, int x, char sea[10][10]) {
 	return true;
 }
 bool CanPlaceShip(char sea[10][10], Ship ship) {
+	// проверка возможности расстановки всего корабля
 	bool canPlace;
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal")
@@ -85,6 +89,7 @@ bool CanPlaceShip(char sea[10][10], Ship ship) {
 	return true;
 }
 void PlaceShip(char sea[10][10], Ship ship) {
+	//размещение корабля
 	for (int i = 0; i < ship.length; i++) {
 		if (ship.position == "horizontal")
 			sea[ship.y][(ship.x + i) - 1] = ShipCell;
@@ -95,6 +100,7 @@ void PlaceShip(char sea[10][10], Ship ship) {
 }
 
 Ship GetShipInfo() {
+	//запрос информации про корабль
 	Ship ship;
 	int shipLength;
 	cout << "choose ship length (";
@@ -104,12 +110,6 @@ Ship GetShipInfo() {
 	if (shipsLeftToPlace[4] > 0) cout << "/4";
 	cout << "):";
 	cin >> shipLength;
-	/*while (shipsLeftToPlace[shipLength] != 0) {	
-		if (shipsLeftToPlace[shipLength] == 0) {
-			cout << "cannot place ship of this length - max count of such ships already placed" << endl;
-		}
-		else cout << "-";
-	}*/
 	
 	ship.length = shipLength;
 	string full_cord;
@@ -131,6 +131,7 @@ Ship GetShipInfo() {
 }
 
 bool ShouldPlaceShips() {
+	//проверка размещены ли все нужные корабли
 	for (int shipLength = 1; shipLength <= 4; shipLength++)
 	{
 		if (shipsLeftToPlace[shipLength] > 0) return true;
@@ -138,6 +139,7 @@ bool ShouldPlaceShips() {
 	return false;
 }
 void ShipPlacement(char sea[10][10]) {
+	// основая функция размещения всех кораблей
 
 	shipsLeftToPlace[1] = 4;
 	shipsLeftToPlace[2] = 3;
@@ -145,6 +147,7 @@ void ShipPlacement(char sea[10][10]) {
 	shipsLeftToPlace[4] = 1;
 
 	while (ShouldPlaceShips()) {
+		// 
 		Show(sea);
 		Ship ship = GetShipInfo();
 		if (CanPlaceShip(sea, ship)) PlaceShip(sea, ship);
